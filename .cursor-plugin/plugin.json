@@ -1,0 +1,31 @@
+{
+  "name": "framepro",
+  "displayName": "Framepro — Reels Factory",
+  "description": "Vertical Reels 60–90s from any topic or URL: Gemini story, Qwen3-TTS, stick-figure cutouts, ACE-Step music, Remotion render, QA. Orchestrator + parallel Cursor subagents.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "keywords": [
+    "framepro",
+    "reels",
+    "shorts",
+    "video",
+    "remotion",
+    "ace-step",
+    "gemini",
+    "qwen3-tts",
+    "whiteboard",
+    "subagents",
+    "cursor-plugin"
+  ],
+  "author": {
+    "name": "Maya Pro",
+    "url": "https://t.me/maya_pro"
+  },
+  "homepage": "https://github.com/Horosheff/framepro",
+  "repository": "https://github.com/Horosheff/framepro",
+  "logo": "assets/logo.svg",
+  "rules": "./rules/",
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "commands": "./commands/"
+}

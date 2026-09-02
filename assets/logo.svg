@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Framepro">
+  <rect width="128" height="128" rx="28" fill="#111111"/>
+  <rect x="34" y="14" width="60" height="100" rx="12" fill="#FFFFFF"/>
+  <rect x="38" y="22" width="52" height="84" rx="6" fill="#F4F4F4"/>
+  <circle cx="64" cy="18" r="2.2" fill="#111111"/>
+  <rect x="44" y="30" width="40" height="24" rx="3" fill="#C8FF3D"/>
+  <circle cx="64" cy="48" r="7" fill="#111111"/>
+  <path d="M64 56 v18 M54 64 h20 M56 88 l8-14 8 14" fill="none" stroke="#111111" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="22" y="28" width="6" height="10" rx="1.5" fill="#C8FF3D"/>
+  <rect x="22" y="46" width="6" height="10" rx="1.5" fill="#C8FF3D"/>
+  <rect x="22" y="64" width="6" height="10" rx="1.5" fill="#C8FF3D"/>
+  <rect x="100" y="28" width="6" height="10" rx="1.5" fill="#C8FF3D"/>
+  <rect x="100" y="46" width="6" height="10" rx="1.5" fill="#C8FF3D"/>
+  <rect x="100" y="64" width="6" height="10" rx="1.5" fill="#C8FF3D"/>
+</svg>

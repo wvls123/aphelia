@@ -1,0 +1,2642 @@
+[
+ {
+  "name": "bass",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.1,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "bleep",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.69,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "clap",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.201,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "click",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.036,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "countdown",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 5.0,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "data",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 4.0,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "ding",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 2.0,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "glass",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.44,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "glitch",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 2.041,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "heartbeat",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.101,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "hit",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 2.0,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "impact",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.222,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "impact-big",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 7.929,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "lock",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.127,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "marker",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.24,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "notify",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.059,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "paper",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.452,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "pen",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.467,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "power",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 5.019,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "riser",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 4.809,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "scan",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 2.03,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "shutter",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.627,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "snap",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.574,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "splash",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.478,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "stomp",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 2.85,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "success",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.619,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "sweep",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.917,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "swoosh",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.781,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "tap",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.106,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "tick",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.849,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "typewriter",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.705,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "warp",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 2.125,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "whoosh",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.757,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "whoosh-deep",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 2.977,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "zoom-fast",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.282,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "zoom-in",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 0.657,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "zoom-out",
+  "category": "alias",
+  "tags": [
+   "короткое имя из первой библиотеки"
+  ],
+  "duration": 1.149,
+  "license": "Mixkit Free License"
+ },
+ {
+  "name": "camera-autofocus",
+  "category": "camera",
+  "tags": [
+   "доказательство",
+   "зум",
+   "камера",
+   "скриншот",
+   "снимок",
+   "фото"
+  ],
+  "duration": 9.594,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "camera-lens-shutter",
+  "category": "camera",
+  "tags": [
+   "доказательство",
+   "зум",
+   "камера",
+   "скриншот",
+   "снимок",
+   "фото"
+  ],
+  "duration": 1.419,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "camera-shutter-hard",
+  "category": "camera",
+  "tags": [
+   "доказательство",
+   "зум",
+   "камера",
+   "скриншот",
+   "снимок",
+   "факт",
+   "фото"
+  ],
+  "duration": 0.627,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "camera-shutter-vintage",
+  "category": "camera",
+  "tags": [
+   "доказательство",
+   "зум",
+   "камера",
+   "скриншот",
+   "снимок",
+   "факт",
+   "фото"
+  ],
+  "duration": 1.159,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "click-camera",
+  "category": "camera",
+  "tags": [
+   "доказательство",
+   "зум",
+   "камера",
+   "скриншот",
+   "снимок",
+   "фото"
+  ],
+  "duration": 0.351,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-zoom-in",
+  "category": "camera",
+  "tags": [
+   "внимание",
+   "детали",
+   "доказательство",
+   "зум",
+   "камера",
+   "приближение",
+   "скриншот",
+   "снимок",
+   "фото"
+  ],
+  "duration": 0.657,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-zoom-out",
+  "category": "camera",
+  "tags": [
+   "внимание",
+   "детали",
+   "доказательство",
+   "зум",
+   "камера",
+   "приближение",
+   "скриншот",
+   "снимок",
+   "фото"
+  ],
+  "duration": 1.149,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "zoom-air-fast",
+  "category": "camera",
+  "tags": [
+   "внимание",
+   "детали",
+   "доказательство",
+   "зум",
+   "камера",
+   "приближение",
+   "скриншот",
+   "снимок",
+   "фото"
+  ],
+  "duration": 1.282,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "zoom-futuristic",
+  "category": "camera",
+  "tags": [
+   "внимание",
+   "детали",
+   "доказательство",
+   "зум",
+   "камера",
+   "приближение",
+   "скриншот",
+   "снимок",
+   "фото"
+  ],
+  "duration": 2.171,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "zoom-swipe-fast",
+  "category": "camera",
+  "tags": [
+   "внимание",
+   "детали",
+   "доказательство",
+   "зум",
+   "камера",
+   "приближение",
+   "скриншот",
+   "снимок",
+   "фото"
+  ],
+  "duration": 1.056,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "clock-knob-spin",
+  "category": "counter",
+  "tags": [
+   "безопасность",
+   "веса не выложены",
+   "время",
+   "дедлайн",
+   "дни",
+   "ждать",
+   "закрыто",
+   "нет доступа",
+   "обратный отсчёт",
+   "счётчик",
+   "таймер",
+   "часы"
+  ],
+  "duration": 0.738,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "clock-mech-retract",
+  "category": "counter",
+  "tags": [
+   "безопасность",
+   "веса не выложены",
+   "время",
+   "дедлайн",
+   "дни",
+   "ждать",
+   "закрыто",
+   "нет доступа",
+   "обратный отсчёт",
+   "счётчик",
+   "таймер",
+   "часы"
+  ],
+  "duration": 1.372,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "clock-tick-single",
+  "category": "counter",
+  "tags": [
+   "безопасность",
+   "веса не выложены",
+   "время",
+   "дедлайн",
+   "дни",
+   "ждать",
+   "закрыто",
+   "нет доступа",
+   "обратный отсчёт",
+   "счётчик",
+   "таймер",
+   "часы"
+  ],
+  "duration": 0.849,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "countdown-bleeps",
+  "category": "counter",
+  "tags": [
+   "время",
+   "дедлайн",
+   "запуск",
+   "обратный отсчёт",
+   "счётчик",
+   "таймер",
+   "часы"
+  ],
+  "duration": 5.0,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "applause-rhythmic-loop",
+  "category": "crowd",
+  "tags": [
+   "CTA",
+   "аплодисменты",
+   "люди",
+   "победа",
+   "реакция публики",
+   "сердце",
+   "успех",
+   "финал"
+  ],
+  "duration": 5.032,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "clap-single",
+  "category": "crowd",
+  "tags": [
+   "аплодисменты",
+   "люди",
+   "молодец",
+   "победа",
+   "реакция публики",
+   "сердце"
+  ],
+  "duration": 0.201,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "heartbeat-single",
+  "category": "crowd",
+  "tags": [
+   "аплодисменты",
+   "люди",
+   "напряжение",
+   "победа",
+   "реакция публики",
+   "риск",
+   "сердце",
+   "страх"
+  ],
+  "duration": 1.101,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "break-glitch-digital",
+  "category": "data",
+  "tags": [
+   "баг",
+   "взлом",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "ошибка",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 1.07,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "data-compute",
+  "category": "data",
+  "tags": [
+   "генерация",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "обработка",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 4.0,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "data-load-os",
+  "category": "data",
+  "tags": [
+   "генерация",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "обработка",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 2.629,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "data-scan",
+  "category": "data",
+  "tags": [
+   "генерация",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "обработка",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 2.03,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "glitch-electric-small",
+  "category": "data",
+  "tags": [
+   "баг",
+   "взлом",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "ошибка",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 1.023,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "glitch-static",
+  "category": "data",
+  "tags": [
+   "баг",
+   "взлом",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "ошибка",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 1.396,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "glitch-static-electric",
+  "category": "data",
+  "tags": [
+   "баг",
+   "взлом",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "ошибка",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 1.504,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "glitch-virtual-quick",
+  "category": "data",
+  "tags": [
+   "баг",
+   "взлом",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "ошибка",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 2.041,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "power-up-electronic",
+  "category": "data",
+  "tags": [
+   "включение",
+   "глитч",
+   "данные",
+   "загрузка",
+   "запуск модели",
+   "код",
+   "нейросеть",
+   "сбой",
+   "сервер",
+   "старт",
+   "техно"
+  ],
+  "duration": 5.019,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "power-up-static",
+  "category": "data",
+  "tags": [
+   "включение",
+   "глитч",
+   "данные",
+   "загрузка",
+   "запуск модели",
+   "код",
+   "нейросеть",
+   "сбой",
+   "сервер",
+   "старт",
+   "техно"
+  ],
+  "duration": 2.812,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "static-electric-present",
+  "category": "data",
+  "tags": [
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 3.991,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sweep-digital",
+  "category": "data",
+  "tags": [
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "переход",
+   "сбой",
+   "сервер",
+   "смена темы",
+   "техно"
+  ],
+  "duration": 1.133,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "whoosh-electric",
+  "category": "data",
+  "tags": [
+   "быстро",
+   "глитч",
+   "данные",
+   "загрузка",
+   "код",
+   "нейросеть",
+   "переход",
+   "сбой",
+   "сервер",
+   "техно"
+  ],
+  "duration": 3.111,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "cassette-stretch",
+  "category": "film",
+  "tags": [
+   "видео",
+   "история",
+   "кино",
+   "перемотка",
+   "плёнка",
+   "ретро"
+  ],
+  "duration": 2.688,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "cassette-working",
+  "category": "film",
+  "tags": [
+   "видео",
+   "история",
+   "кино",
+   "перемотка",
+   "плёнка",
+   "ретро"
+  ],
+  "duration": 2.733,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "projector-spin-antique",
+  "category": "film",
+  "tags": [
+   "видео",
+   "демо",
+   "история",
+   "кино",
+   "перемотка",
+   "плёнка",
+   "показ",
+   "ретро"
+  ],
+  "duration": 21.708,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "reel-rewind",
+  "category": "film",
+  "tags": [
+   "видео",
+   "вспомним",
+   "история",
+   "кино",
+   "назад",
+   "перемотка",
+   "плёнка",
+   "ретро",
+   "хронология"
+  ],
+  "duration": 3.825,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "tape-rewind-cine",
+  "category": "film",
+  "tags": [
+   "видео",
+   "вспомним",
+   "история",
+   "кино",
+   "назад",
+   "перемотка",
+   "плёнка",
+   "ретро",
+   "хронология"
+  ],
+  "duration": 4.389,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "tape-rewind-fast",
+  "category": "film",
+  "tags": [
+   "видео",
+   "вспомним",
+   "история",
+   "кино",
+   "назад",
+   "перемотка",
+   "плёнка",
+   "ретро",
+   "хронология"
+  ],
+  "duration": 1.917,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "vinyl-needle-drop",
+  "category": "film",
+  "tags": [
+   "видео",
+   "внезапно",
+   "ирония",
+   "история",
+   "кино",
+   "перемотка",
+   "плёнка",
+   "ретро",
+   "стоп"
+  ],
+  "duration": 0.327,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "vinyl-scratch-small",
+  "category": "film",
+  "tags": [
+   "видео",
+   "внезапно",
+   "ирония",
+   "история",
+   "кино",
+   "перемотка",
+   "плёнка",
+   "ретро",
+   "стоп"
+  ],
+  "duration": 1.196,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "liquid-bubble",
+  "category": "fluid",
+  "tags": [
+   "вода",
+   "деньги утекают",
+   "мягкость",
+   "органика",
+   "пузыри",
+   "пузырь",
+   "хайп"
+  ],
+  "duration": 1.047,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sand-swish",
+  "category": "fluid",
+  "tags": [
+   "вода",
+   "деньги утекают",
+   "мягкость",
+   "органика",
+   "пузыри"
+  ],
+  "duration": 1.906,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "water-bubble",
+  "category": "fluid",
+  "tags": [
+   "вода",
+   "деньги утекают",
+   "мягкость",
+   "органика",
+   "пузыри",
+   "пузырь",
+   "хайп"
+  ],
+  "duration": 0.424,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "water-drop-cave",
+  "category": "fluid",
+  "tags": [
+   "вода",
+   "деньги утекают",
+   "мысль",
+   "мягкость",
+   "органика",
+   "пауза",
+   "пузыри",
+   "тишина"
+  ],
+  "duration": 2.0,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "water-splash",
+  "category": "fluid",
+  "tags": [
+   "вода",
+   "деньги утекают",
+   "мягкость",
+   "органика",
+   "пузыри"
+  ],
+  "duration": 1.478,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "glass-break-hammer",
+  "category": "glass",
+  "tags": [
+   "крах",
+   "провал",
+   "разбить",
+   "разрушение",
+   "рекорд побит",
+   "хрупкость"
+  ],
+  "duration": 1.44,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "glass-debris-sweep",
+  "category": "glass",
+  "tags": [
+   "крах",
+   "переход",
+   "провал",
+   "разбить",
+   "разрушение",
+   "смена темы",
+   "хрупкость"
+  ],
+  "duration": 3.125,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "glass-hit-cine",
+  "category": "glass",
+  "tags": [
+   "крах",
+   "провал",
+   "разбить",
+   "разрушение",
+   "хрупкость"
+  ],
+  "duration": 4.719,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "glass-plate-slide",
+  "category": "glass",
+  "tags": [
+   "крах",
+   "провал",
+   "разбить",
+   "разрушение",
+   "хрупкость"
+  ],
+  "duration": 1.132,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "bass-hit-futuristic",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "панч",
+   "плохая новость",
+   "серьёзно",
+   "сила",
+   "тяжёлый факт",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 2.75,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "bass-hit-short",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "панч",
+   "плохая новость",
+   "серьёзно",
+   "сила",
+   "тяжёлый факт",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 1.1,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "gravel-fall-hit",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 1.226,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "hit-blow",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 0.591,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "hit-fast-exciting",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 2.0,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "hit-weak",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 0.591,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "impact-cine-big",
+  "category": "impact",
+  "tags": [
+   "масштаб",
+   "миллиарды",
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп",
+   "эпично"
+  ],
+  "duration": 7.929,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "impact-deep-whoosh",
+  "category": "impact",
+  "tags": [
+   "быстро",
+   "падение",
+   "переход",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 4.063,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "impact-epic-trailer",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 4.866,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "impact-movie-epic",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 5.145,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "impact-transition",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 4.866,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "impact-zoom-quick",
+  "category": "impact",
+  "tags": [
+   "внимание",
+   "детали",
+   "падение",
+   "плохая новость",
+   "приближение",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 1.222,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "metal-spring-hit",
+  "category": "impact",
+  "tags": [
+   "падение",
+   "плохая новость",
+   "сила",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 3.0,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "stomp-apocalyptic",
+  "category": "impact",
+  "tags": [
+   "жёстко",
+   "падение",
+   "плохая новость",
+   "сила",
+   "ставка",
+   "точка",
+   "удар",
+   "цифра",
+   "шок",
+   "штамп"
+  ],
+  "duration": 2.85,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "light-aura",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "результат",
+   "чудо"
+  ],
+  "duration": 5.499,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "light-spell",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "результат",
+   "чудо"
+  ],
+  "duration": 8.0,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "light-sweep-magic",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "переход",
+   "результат",
+   "смена темы",
+   "чудо"
+  ],
+  "duration": 4.751,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "light-transition-magic",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "результат",
+   "чудо"
+  ],
+  "duration": 5.063,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "shimmer-sparkle-sweep",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "переход",
+   "результат",
+   "смена темы",
+   "чудо"
+  ],
+  "duration": 2.998,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sparkle",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "результат",
+   "чудо"
+  ],
+  "duration": 3.188,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sparkle-poof-hit",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "результат",
+   "чудо"
+  ],
+  "duration": 3.188,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sparkle-touch",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "результат",
+   "чудо"
+  ],
+  "duration": 2.333,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sparkle-wand",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "результат",
+   "чудо"
+  ],
+  "duration": 2.5,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "stardust-swish",
+  "category": "light",
+  "tags": [
+   "блеск",
+   "вау",
+   "идея",
+   "магия",
+   "открытие",
+   "результат",
+   "чудо"
+  ],
+  "duration": 4.804,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "door-open-futuristic",
+  "category": "mech",
+  "tags": [
+   "вход",
+   "дверь",
+   "замок",
+   "запуск",
+   "защита",
+   "машина",
+   "механизм",
+   "открытие",
+   "релиз"
+  ],
+  "duration": 2.052,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "gear-lock-metallic",
+  "category": "mech",
+  "tags": [
+   "безопасность",
+   "веса не выложены",
+   "дверь",
+   "закрыто",
+   "замок",
+   "запуск",
+   "защита",
+   "машина",
+   "механизм",
+   "нет доступа"
+  ],
+  "duration": 1.099,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "lock-digital",
+  "category": "mech",
+  "tags": [
+   "безопасность",
+   "веса не выложены",
+   "дверь",
+   "закрыто",
+   "замок",
+   "запуск",
+   "защита",
+   "машина",
+   "механизм",
+   "нет доступа"
+  ],
+  "duration": 1.089,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "lock-quick",
+  "category": "mech",
+  "tags": [
+   "безопасность",
+   "веса не выложены",
+   "дверь",
+   "закрыто",
+   "замок",
+   "запуск",
+   "защита",
+   "машина",
+   "механизм",
+   "нет доступа"
+  ],
+  "duration": 1.127,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "machine-activate-short",
+  "category": "mech",
+  "tags": [
+   "дверь",
+   "замок",
+   "запуск",
+   "защита",
+   "машина",
+   "механизм"
+  ],
+  "duration": 2.708,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "mech-robotic-futuristic",
+  "category": "mech",
+  "tags": [
+   "дверь",
+   "замок",
+   "запуск",
+   "защита",
+   "машина",
+   "механизм"
+  ],
+  "duration": 9.6,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "mech-tech-movement",
+  "category": "mech",
+  "tags": [
+   "дверь",
+   "замок",
+   "запуск",
+   "защита",
+   "машина",
+   "механизм"
+  ],
+  "duration": 2.5,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "metal-drop-scifi-small",
+  "category": "mech",
+  "tags": [
+   "дверь",
+   "замок",
+   "запуск",
+   "защита",
+   "машина",
+   "механизм"
+  ],
+  "duration": 5.5,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-book-browse-fast",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "отчёт",
+   "список",
+   "страница"
+  ],
+  "duration": 9.28,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-crumple-quick",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "выбросить",
+   "документ",
+   "контракт",
+   "не работает",
+   "отказ",
+   "отчёт",
+   "список",
+   "страница"
+  ],
+  "duration": 1.33,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-move-quick",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "отчёт",
+   "список",
+   "страница"
+  ],
+  "duration": 0.902,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-page-turn",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "листаем",
+   "отчёт",
+   "следующий пункт",
+   "список",
+   "страница"
+  ],
+  "duration": 0.452,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-page-turn-big",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "листаем",
+   "отчёт",
+   "следующий пункт",
+   "список",
+   "страница"
+  ],
+  "duration": 0.831,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-scissors-cut",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "отрезать",
+   "отчёт",
+   "разделить",
+   "сократить",
+   "список",
+   "страница"
+  ],
+  "duration": 2.939,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-slice-quick",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "отчёт",
+   "список",
+   "страница"
+  ],
+  "duration": 0.348,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-slide",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "отчёт",
+   "список",
+   "страница"
+  ],
+  "duration": 1.094,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-staple",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "отчёт",
+   "список",
+   "страница"
+  ],
+  "duration": 1.154,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "paper-wind-blow",
+  "category": "paper",
+  "tags": [
+   "бумага",
+   "документ",
+   "контракт",
+   "отчёт",
+   "список",
+   "страница"
+  ],
+  "duration": 5.503,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "riser-cine",
+  "category": "riser",
+  "tags": [
+   "напряжение",
+   "нарастание",
+   "ожидание",
+   "перед панчем"
+  ],
+  "duration": 4.809,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "hitech-bleep",
+  "category": "scifi",
+  "tags": [
+   "ИИ",
+   "будущее",
+   "космос",
+   "робот",
+   "сигнал",
+   "технологии"
+  ],
+  "duration": 0.69,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "scifi-click",
+  "category": "scifi",
+  "tags": [
+   "ИИ",
+   "будущее",
+   "космос",
+   "робот",
+   "сигнал",
+   "технологии"
+  ],
+  "duration": 0.696,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "scifi-computer-ambience",
+  "category": "scifi",
+  "tags": [
+   "ИИ",
+   "будущее",
+   "космос",
+   "робот",
+   "сигнал",
+   "технологии"
+  ],
+  "duration": 23.5,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "space-intro-futuristic",
+  "category": "scifi",
+  "tags": [
+   "ИИ",
+   "будущее",
+   "космос",
+   "робот",
+   "сигнал",
+   "технологии"
+  ],
+  "duration": 8.06,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "tech-hum-futuristic",
+  "category": "scifi",
+  "tags": [
+   "ИИ",
+   "будущее",
+   "космос",
+   "робот",
+   "сигнал",
+   "технологии"
+  ],
+  "duration": 6.0,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "chalk-line",
+  "category": "text",
+  "tags": [
+   "доска",
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "объяснение",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст"
+  ],
+  "duration": 1.075,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "keyboard",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "пишет код",
+   "программист",
+   "промпт",
+   "рисование",
+   "текст"
+  ],
+  "duration": 19.633,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "marker-pen-line",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "обводка",
+   "печать",
+   "письмо",
+   "подчёркивание",
+   "рисование",
+   "стрелка",
+   "текст"
+  ],
+  "duration": 1.24,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "pen-click-twice",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст"
+  ],
+  "duration": 1.58,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "pen-write-paper",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст"
+  ],
+  "duration": 1.467,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "pencil-write-short",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст"
+  ],
+  "duration": 0.915,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "typewriter-digital",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст",
+   "текст появляется",
+   "цитата"
+  ],
+  "duration": 1.851,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "typewriter-hit-hard",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст",
+   "текст появляется",
+   "цитата"
+  ],
+  "duration": 1.101,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "typewriter-hit-single",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст",
+   "текст появляется",
+   "цитата"
+  ],
+  "duration": 0.705,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "typewriter-hit-soft",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст",
+   "текст появляется",
+   "цитата"
+  ],
+  "duration": 0.534,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "typewriter-return-bell",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст",
+   "текст появляется",
+   "цитата"
+  ],
+  "duration": 1.788,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "write-blackboard",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст"
+  ],
+  "duration": 13.949,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "write-fast",
+  "category": "text",
+  "tags": [
+   "заголовок",
+   "клавиатура",
+   "маркер",
+   "печать",
+   "письмо",
+   "рисование",
+   "текст"
+  ],
+  "duration": 0.793,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "air-whoosh-powerful",
+  "category": "transition",
+  "tags": [
+   "быстро",
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 1.839,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "air-woosh-deep",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 2.977,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "air-woosh-quick",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 1.511,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "air-zoom-vacuum",
+  "category": "transition",
+  "tags": [
+   "внимание",
+   "движение",
+   "детали",
+   "переход",
+   "полёт",
+   "приближение",
+   "смена сцены"
+  ],
+  "duration": 1.275,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sweep-fast",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены",
+   "смена темы"
+  ],
+  "duration": 1.917,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sweep-fast-small",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены",
+   "смена темы"
+  ],
+  "duration": 0.781,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sweep-metal-quick",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены",
+   "смена темы"
+  ],
+  "duration": 1.722,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sweep-scifi-fast",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены",
+   "смена темы"
+  ],
+  "duration": 1.208,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "sweep-short",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены",
+   "смена темы"
+  ],
+  "duration": 0.606,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "swoosh-quick",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 0.781,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "swoosh-slow",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 5.5,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "transition-snap",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "кат",
+   "переход",
+   "полёт",
+   "резко",
+   "смена сцены"
+  ],
+  "duration": 0.574,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "transition-soft",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 1.275,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "transition-tech",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 3.125,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "transition-tech-slide",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 1.65,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "warp-slide",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены",
+   "технологичный"
+  ],
+  "duration": 2.125,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "whoosh-big",
+  "category": "transition",
+  "tags": [
+   "быстро",
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 2.321,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "whoosh-fast",
+  "category": "transition",
+  "tags": [
+   "быстро",
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 1.757,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "whoosh-swirl",
+  "category": "transition",
+  "tags": [
+   "быстро",
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 2.485,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "wind-pass-vibrate",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 5.018,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "wind-swoosh-short",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 1.39,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "wind-woosh-throw",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 0.963,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "wing-flutter",
+  "category": "transition",
+  "tags": [
+   "движение",
+   "переход",
+   "полёт",
+   "смена сцены"
+  ],
+  "duration": 5.652,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "chime-crystal",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "готово",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "хорошая новость",
+   "чек-лист"
+  ],
+  "duration": 2.0,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "hitech-touch-magnet",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 2.208,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "pop",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "лёгкость",
+   "появление",
+   "приложение",
+   "стикер",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 0.479,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "pop-electric",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "лёгкость",
+   "появление",
+   "приложение",
+   "стикер",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.107,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "switch-click-quick",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.036,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "switch-light",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 0.167,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "switch-tap",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.106,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-click-tone",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 0.199,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-confirm-bleep",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "галочка",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "принято",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 0.609,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-confirm-tone",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "галочка",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "принято",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.304,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-message-pop",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "лёгкость",
+   "появление",
+   "приложение",
+   "стикер",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.059,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-notify-tech",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "новость",
+   "приложение",
+   "сообщение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 2.083,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-option-select",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.553,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-popup-dry",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "лёгкость",
+   "появление",
+   "приложение",
+   "стикер",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 0.305,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-select-click",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.104,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-select-modern",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 0.5,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-success-soft",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.619,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ },
+ {
+  "name": "ui-tone-quick",
+  "category": "ui",
+  "tags": [
+   "выбор",
+   "интерфейс",
+   "клик",
+   "приложение",
+   "уведомление",
+   "успех",
+   "чек-лист"
+  ],
+  "duration": 1.287,
+  "license": "Mixkit Free License (commercial OK, no attribution)"
+ }
+]

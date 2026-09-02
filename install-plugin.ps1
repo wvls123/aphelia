@@ -1,45 +1,47 @@
 ﻿# Installs the Framepro plugin into Cursor's local plugins folder.
 # From plugin root:  .\install-plugin.ps1
 # Copies rules/agents/skills/commands/scripts/shared/templates/voices (no node_modules, no runs),
-# installs Remotion + Playwright deps, sets up ACE-Step 1.5 (music generation) via uv.
+# installs Remotion + Playwright deps, sets up ACE-Step 1.5 (music generation) via uv,
+# and registers Task subagents into .cursor/agents + %USERPROFILE%\.cursor\agents
+# (Cursor does NOT load Task types from the plugin agents/ folder automatically).
 # Restart Cursor afterwards so the framepro-* subagents appear in Task.
 
 $ErrorActionPreference = "Stop"
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $dest = Join-Path $env:USERPROFILE ".cursor\plugins\local\framepro"
+$alreadyAtDest = $here -ieq $dest
 
-if ($here -ieq $dest) {
-  Write-Host "Already running from the installed location: $dest" -ForegroundColor Yellow
-  exit 0
-}
-
-Write-Host "Installing Framepro -> $dest" -ForegroundColor Cyan
-if (Test-Path $dest) {
-  # keep the heavy ACE-Step checkout (venv + model checkpoints) between reinstalls
-  Get-ChildItem $dest -Force | Where-Object { $_.Name -ne "vendor" } | Remove-Item -Recurse -Force
+if ($alreadyAtDest) {
+  Write-Host "Already at installed location: $dest" -ForegroundColor Yellow
+  Write-Host "Registering Task subagents and slash-commands..." -ForegroundColor Cyan
 } else {
-  New-Item -ItemType Directory -Force -Path $dest | Out-Null
-}
-
-$items = @(".cursor-plugin", "assets", "rules", "agents", "skills", "commands", "scripts", "shared", "templates", "voices", "docs", "README.md", "LICENSE", "install-plugin.ps1", ".gitignore")
-foreach ($item in $items) {
-  $src = Join-Path $here $item
-  if (-not (Test-Path $src)) { continue }
-  if ((Get-Item $src).PSIsContainer) {
-    robocopy $src (Join-Path $dest $item) /E /XD node_modules public out __pycache__ .pytest_cache /XF render-*.mp4 data.ts /NFL /NDL /NJH /NJS /NP | Out-Null
+  Write-Host "Installing Framepro -> $dest" -ForegroundColor Cyan
+  if (Test-Path $dest) {
+    # keep the heavy ACE-Step checkout (venv + model checkpoints) between reinstalls
+    Get-ChildItem $dest -Force | Where-Object { $_.Name -ne "vendor" } | Remove-Item -Recurse -Force
   } else {
-    Copy-Item $src (Join-Path $dest $item) -Force
+    New-Item -ItemType Directory -Force -Path $dest | Out-Null
   }
-}
-# sfx/bgm library lives in templates/audio (copied above); vendor/video-shotcraft is only the source and is not copied
 
-Write-Host "npm install (Remotion template)..." -ForegroundColor Cyan
-Push-Location (Join-Path $dest "templates\remotion")
-npm install --silent
-# src/data.ts is generated per run by scripts/sync_remotion.py; a typed empty placeholder keeps `tsc` green before the first render
-$dataTs = Join-Path (Get-Location) "src\data.ts"
-if (-not (Test-Path $dataTs)) {
-  $placeholder = @'
+  $items = @(".cursor-plugin", "assets", "rules", "agents", "skills", "commands", "scripts", "shared", "templates", "voices", "docs", "README.md", "LICENSE", "install-plugin.ps1", ".gitignore")
+  foreach ($item in $items) {
+    $src = Join-Path $here $item
+    if (-not (Test-Path $src)) { continue }
+    if ((Get-Item $src).PSIsContainer) {
+      robocopy $src (Join-Path $dest $item) /E /XD node_modules public out __pycache__ .pytest_cache /XF render-*.mp4 data.ts /NFL /NDL /NJH /NJS /NP | Out-Null
+    } else {
+      Copy-Item $src (Join-Path $dest $item) -Force
+    }
+  }
+  # sfx/bgm library lives in templates/audio (copied above); vendor/video-shotcraft is only the source and is not copied
+
+  Write-Host "npm install (Remotion template)..." -ForegroundColor Cyan
+  Push-Location (Join-Path $dest "templates\remotion")
+  npm install --silent
+  # src/data.ts is generated per run by scripts/sync_remotion.py; a typed empty placeholder keeps `tsc` green before the first render
+  $dataTs = Join-Path (Get-Location) "src\data.ts"
+  if (-not (Test-Path $dataTs)) {
+    $placeholder = @'
 /* eslint-disable */
 import type { Timeline } from "./timeline-types";
 
@@ -50,32 +52,58 @@ export const timeline: Timeline = {
   captions_cfg: {}, words: [], bgm: null, sfx: [], scenes: [],
 };
 '@
-  [System.IO.File]::WriteAllText($dataTs, $placeholder, (New-Object System.Text.UTF8Encoding $false))
-}
-Pop-Location
-
-Write-Host "npm install (Playwright capture)..." -ForegroundColor Cyan
-Push-Location (Join-Path $dest "scripts\node")
-npm install --silent
-npx playwright install chromium | Out-Null
-Pop-Location
-
-Write-Host "ACE-Step 1.5 (music generation, MIT)..." -ForegroundColor Cyan
-$ace = Join-Path $dest "vendor\ace-step"
-if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
-  Write-Host "  uv not found - install: powershell -ExecutionPolicy ByPass -c ""irm https://astral.sh/uv/install.ps1 | iex""  then re-run" -ForegroundColor Yellow
-} else {
-  if (-not (Test-Path (Join-Path $ace "pyproject.toml"))) {
-    New-Item -ItemType Directory -Force -Path (Split-Path $ace) | Out-Null
-    git clone --depth 1 https://github.com/ACE-Step/ACE-Step-1.5.git $ace
+    [System.IO.File]::WriteAllText($dataTs, $placeholder, (New-Object System.Text.UTF8Encoding $false))
   }
-  Push-Location $ace
-  uv sync
   Pop-Location
-  Write-Host "  model weights (~5 GB) download automatically on the first music generation" -ForegroundColor DarkGray
+
+  Write-Host "npm install (Playwright capture)..." -ForegroundColor Cyan
+  Push-Location (Join-Path $dest "scripts\node")
+  npm install --silent
+  npx playwright install chromium | Out-Null
+  Pop-Location
+
+  Write-Host "ACE-Step 1.5 (music generation, MIT)..." -ForegroundColor Cyan
+  $ace = Join-Path $dest "vendor\ace-step"
+  if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
+    Write-Host "  uv not found - install: powershell -ExecutionPolicy ByPass -c ""irm https://astral.sh/uv/install.ps1 | iex""  then re-run" -ForegroundColor Yellow
+  } else {
+    if (-not (Test-Path (Join-Path $ace "pyproject.toml"))) {
+      New-Item -ItemType Directory -Force -Path (Split-Path $ace) | Out-Null
+      git clone --depth 1 https://github.com/ACE-Step/ACE-Step-1.5.git $ace
+    }
+    Push-Location $ace
+    uv sync
+    Pop-Location
+    Write-Host "  model weights (~5 GB) download automatically on the first music generation" -ForegroundColor DarkGray
+  }
+
+  Write-Host "Python deps check..." -ForegroundColor Cyan
+  python -c "import qwen_tts, whisper, ruaccent, rembg, torchaudio, PIL; print('python deps OK')"
 }
 
-Write-Host "Python deps check..." -ForegroundColor Cyan
-python -c "import qwen_tts, whisper, ruaccent, rembg, torchaudio, PIL; print('python deps OK')"
+# Task loads custom subagents ONLY from .cursor/agents and %USERPROFILE%\.cursor\agents.
+$agentSrc = Join-Path $here "agents"
+$cmdSrc = Join-Path $here "commands"
+$taskUser = Join-Path $env:USERPROFILE ".cursor\agents"
+$cmdUser = Join-Path $env:USERPROFILE ".cursor\commands"
+$taskProj = Join-Path $here ".cursor\agents"
+$cmdProj = Join-Path $here ".cursor\commands"
+New-Item -ItemType Directory -Force -Path $taskUser, $cmdUser, $taskProj, $cmdProj | Out-Null
+Copy-Item -Path (Join-Path $agentSrc "framepro*.md") -Destination $taskUser -Force
+Copy-Item -Path (Join-Path $cmdSrc "framepro*.md") -Destination $cmdUser -Force
+Copy-Item -Path (Join-Path $agentSrc "framepro*.md") -Destination $taskProj -Force
+Copy-Item -Path (Join-Path $cmdSrc "framepro*.md") -Destination $cmdProj -Force
+Write-Host "Task subagents (user): $taskUser" -ForegroundColor Cyan
+Write-Host "Slash commands (user): $cmdUser" -ForegroundColor Cyan
+if (-not $alreadyAtDest) {
+  $taskPlugin = Join-Path $dest ".cursor\agents"
+  $cmdPlugin = Join-Path $dest ".cursor\commands"
+  New-Item -ItemType Directory -Force -Path $taskPlugin, $cmdPlugin | Out-Null
+  Copy-Item -Path (Join-Path $agentSrc "framepro*.md") -Destination $taskPlugin -Force
+  Copy-Item -Path (Join-Path $cmdSrc "framepro*.md") -Destination $cmdPlugin -Force
+}
 
-Write-Host "Done. Restart Cursor -> Task shows framepro-* agents. Try: /framepro-new <topic or URL>" -ForegroundColor Green
+$agentCount = @(Get-ChildItem $taskUser -Filter "framepro*.md").Count
+Write-Host "Done. Restart Cursor (or Developer: Reload Window)." -ForegroundColor Green
+Write-Host "Task types ($agentCount): framepro-researcher, writer, voice, illustrator, screencaster, storyboarder, renderer, guardian, publisher, fixic" -ForegroundColor DarkGray
+Write-Host "Commands: /framepro-new  /framepro-voice  /framepro-render" -ForegroundColor DarkGray

@@ -10,6 +10,7 @@
 
 ```powershell
 .\install-plugin.ps1        # копирует в %USERPROFILE%\.cursor\plugins\local\framepro, ставит npm-зависимости, клонирует ACE-Step (uv sync)
+# и регистрирует субагентов в .cursor/agents + %USERPROFILE%\.cursor\agents (без этого Task их не видит)
 # перезапустить Cursor → Customize → Plugins → Framepro; в чате /framepro-new
 ```
 

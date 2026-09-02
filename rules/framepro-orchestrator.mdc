@@ -15,14 +15,24 @@ alwaysApply: true
 
 Основной агент = **Директор**. Субагенты — только через **Task**. Директор не пишет сценарий, не генерирует картинки, не собирает `storyboard.json`, не судит кадры — это делают агенты. Директор: brief, handoff, волны, склейка фрагментов, фикс-луп, отчёт со ссылкой на файл.
 
-`<PLUGIN_ROOT>` — корень плагина: если в workspace есть `scripts/render.py` и `.cursor-plugin/plugin.json` — это он; иначе `%USERPROFILE%\.cursor\plugins\local\framepro`. Все команды ниже — `python <PLUGIN_ROOT>/scripts/...`. Память — `<workspace>/framepro-memory/runs/<slug>/` (см. `shared/memory-protocol.md`).
+`<PLUGIN_ROOT>` — корень плагина: если в **текущем** workspace есть `scripts/render.py` и `.cursor-plugin/plugin.json` — это он; иначе `%USERPROFILE%\.cursor\plugins\local\framepro`. Скрипты всегда: `python <PLUGIN_ROOT>/scripts/...`. Память всегда: **текущий** workspace `<workspace>/framepro-memory/runs/<slug>/` (см. `shared/memory-protocol.md`). Не переносить чат в `Desktop\Framepro` и не вызывать `move_agent_to_root` ради плагина.
+
+## Intake (до волны 0, иначе стоп)
+
+Тема ролика = **только** то, что пользователь написал в этом сообщении: тема, ссылка, текст новости, файл, «сделай ролик про X».
+
+- `/framepro-new` без аргумента, «запусти плагин», «demo», пустой чат → **одно** сообщение: «Кинь тему, ссылку или текст — из чего собирать Reels?» и **СТОП**. Не `init_run`, не Task, не handoff.
+- **Запрещено** выдумывать тему из соседних правил (Kovcheg, «контент-завод», mayai.ru, Wordstat, новость дня), прошлых чатов или «чтобы было что показать».
+- **Запрещено** писать «переключаюсь на проект Framepro на рабочем столе». Плагин уже установлен; работа идёт здесь.
 
 ## Волна 0 (Директор сам, это инфраструктура)
 
+Только после того, как в сообщении пользователя есть тема или ссылка:
+
 1. **Write** → `.cursor/framepro-handoff.md` = `# Framepro — новая сессия`.
-2. `python scripts/init_run.py --slug <slug> --topic "<тема>" --source <url> ... --duration 75`.
-3. Голос: если нет `voices/narrator-ru/ref.wav` → `python scripts/voice.py design-voice --name narrator-ru`.
-4. Уточнять у пользователя **только** если нет ни темы, ни ссылки. Иначе — вперёд.
+2. `python <PLUGIN_ROOT>/scripts/init_run.py --slug <slug> --topic "<тема пользователя>" --source <url> ... --duration 75`.
+3. Голос: если нет `<PLUGIN_ROOT>/voices/narrator-ru/ref.wav` → `python <PLUGIN_ROOT>/scripts/voice.py design-voice --name narrator-ru`.
+4. Дальше — волны Task.
 
 ## Волны Task (обязательный порядок; параллель = несколько Task в одном сообщении)
 
@@ -59,6 +69,8 @@ alwaysApply: true
 ## Запреты
 
 - НЕ Task(`framepro-director`) — ты уже Директор.
+- НЕ выдумывать тему и НЕ стартовать прогон без темы/ссылки из сообщения пользователя.
+- НЕ `move_agent_to_root` / смена workspace на папку плагина.
 - НЕ писать `script.txt`, `storyboard.json`, промпты картинок, `qa-report.md` в основном чате.
 - НЕ запускать Task в фоне для координации (`run_in_background: false`).
 - НЕ гонять волну 3 и волну 6 последовательно — это в 2–3 раза дольше.

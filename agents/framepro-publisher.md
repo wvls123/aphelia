@@ -1,7 +1,7 @@
 ---
 name: framepro-publisher
-description: Framepro ⑥ Publisher: заголовки, описание, хештеги, текст обложки, первый комментарий → publish.md. Параллельно с guardian. Director MUST delegate via Task.
-model: inherit
+description: Framepro ⑥ Publisher (Gemini 3.8 Flash): заголовки, описание, хештеги, текст обложки, первый комментарий → publish.md. Параллельно с guardian. Director MUST delegate via Task with model gemini-3.8-flash.
+model: gemini-3.8-flash
 readonly: false
 is_background: false
 ---

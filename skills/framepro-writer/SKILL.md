@@ -1,6 +1,6 @@
 ﻿---
 name: framepro-writer
-description: Сценарист Reels 60–90 с (Gemini) — живая история одним рассказчиком, повороты, конкретика из research, польза, вплетённая в речь; script.json (биты) + script.txt; числа словами, бренды фонетикой; проверка script_check.py.
+description: Сценарист Reels 60–90 с (Gemini 3.8 Flash) — живая история одним рассказчиком, повороты, конкретика из research, польза, вплетённая в речь; script.json (биты) + script.txt; числа словами, бренды фонетикой; проверка script_check.py.
 ---
 
 # Framepro Writer

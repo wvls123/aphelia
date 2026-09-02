@@ -39,17 +39,17 @@ alwaysApply: true
 | Волна | Режим | Task | Ждать перед следующей |
 |---|---|---|---|
 | 1 | один | `framepro-researcher` | `research.md`, `facts.json`, фрагмент |
-| 2 | один, **model `gemini-3.1-pro`** | `framepro-writer` | `script.json`, `script.txt`, `script-check.json ok:true` |
+| 2 | один, **model `gemini-3.8-flash`** | `framepro-writer` | `script.json`, `script.txt`, `script-check.json ok:true` |
 | 3 | **ПАРАЛЛЕЛЬНО** | `framepro-voice` ‖ `framepro-illustrator` ×2–3 (список `assets_wanted` разбить на равные части; библиотечные стикеры — одному экземпляру) ‖ `framepro-screencaster` (если есть URL-источники) | `vo-words.json`, все `assets/cut/*.png`, `assets/assets-*.json`, видео |
 | 4 | один | `framepro-storyboarder` — анализ ролика, стиль-пресет, музыка (`music-brief.json`), звуки по смыслу, эффекты из каталога или свой `custom/*.tsx` | `storyboard.json`, `storyboard-validation.json ok:true`, `timeline.json` |
 | 5 | один | `framepro-renderer` — `render.py` сам генерирует музыку ACE-Step и рендерит Remotion | `out/<slug>.mp4` |
-| 6 | **ПАРАЛЛЕЛЬНО** | `framepro-guardian` ‖ `framepro-publisher` | `qa-report.md` (PASS/FIX), `publish.md` |
+| 6 | **ПАРАЛЛЕЛЬНО** | `framepro-guardian` ‖ `framepro-publisher` (**model `gemini-3.8-flash`**) | `qa-report.md` (PASS/FIX), `publish.md` |
 | фикс | луп ≤ 2 | при FIX: `framepro-storyboarder` (правки из qa-report.md) → `framepro-renderer` → `framepro-guardian` | PASS |
 | 7 | один | `framepro-fixic` — если в `pipeline-fix-queue.md` есть `status: open` | — |
 
 Перед следующей волной Директор читает `fragments/<role>.md` каждого агента волны: маркер `=== ROLE ===`, `status`, `incident_report`. Нет фрагмента — дозапустить только этого агента. Затем Директор дописывает handoff сам. После волны 3 Директор склеивает `assets/assets-*.json`: `python scripts/merge_assets.py --project <run>`.
 
-Сценарист всегда запускается с `model: gemini-3.1-pro` (в `agents/framepro-writer.md` это задано; при fallback через `generalPurpose` — передавать `model` в Task явно). Если голос вышел из диапазона `brief.min_seconds…max_seconds` или диктор ломает слово — вернуть `framepro-writer` (Gemini) на правку `say`, затем повторить волну 3 только для `framepro-voice`.
+Текстовые субагенты (**writer**, **publisher**) всегда на **Gemini 3.8 Flash**: в Task явно `model: gemini-3.8-flash` (это же в YAML агента). Не `inherit`, не Composer, не Grok. Если slug недоступен — только другой Gemini (`gemini-3.1-pro`), и написать об этом в handoff. Если голос вышел из диапазона `brief.min_seconds…max_seconds` или диктор ломает слово — вернуть `framepro-writer` (Gemini 3.8 Flash) на правку `say`, затем повторить волну 3 только для `framepro-voice`.
 
 ## Разнообразие от ролика к ролику (Директор проверяет во фрагменте storyboarder)
 
@@ -60,7 +60,7 @@ alwaysApply: true
 
 ## Fallback
 
-Если типы `framepro-*` недоступны в Task (плагин ещё не подхвачен, Cursor не перезапущен) — **Task**(`generalPurpose`) с текстом: «Прочитай и выполни `<PLUGIN_ROOT>/agents/<role>.md` и его skill `<PLUGIN_ROOT>/skills/<role>/SKILL.md` для run `<run>`». Для writer дополнительно `model: gemini-3.1-pro`. Волны и параллель те же.
+Если типы `framepro-*` недоступны в Task (плагин ещё не подхвачен, Cursor не перезапущен) — **Task**(`generalPurpose`) с текстом: «Прочитай и выполни `<PLUGIN_ROOT>/agents/<role>.md` и его skill `<PLUGIN_ROOT>/skills/<role>/SKILL.md` для run `<run>`». Для writer и publisher — `model: gemini-3.8-flash`. Волны и параллель те же.
 
 ## Финал
 

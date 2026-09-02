@@ -1,6 +1,6 @@
 ---
 name: framepro-publisher
-description: Метаданные публикации Framepro — заголовки, описание, хештеги, текст обложки, первый комментарий под YouTube Shorts / Reels / TikTok / VK Клипы / Дзен → publish.md. Параллельно с guardian.
+description: Метаданные публикации Framepro (Gemini 3.8 Flash) — заголовки, описание, хештеги, текст обложки, первый комментарий под YouTube Shorts / Reels / TikTok / VK Клипы / Дзен → publish.md. Параллельно с guardian. Директор вызывает Task с model gemini-3.8-flash.
 ---
 
 # Framepro Publisher

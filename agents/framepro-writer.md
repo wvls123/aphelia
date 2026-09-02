@@ -1,7 +1,7 @@
 ---
 name: framepro-writer
-description: Framepro ② Writer (Gemini): сценарий-история 60–90 с — живой разговорный русский, драматургия, конкретика, польза; script.json + script.txt; числа словами, бренды фонетикой. Director MUST delegate via Task with model gemini-3.1-pro.
-model: gemini-3.1-pro
+description: Framepro ② Writer (Gemini 3.8 Flash): сценарий-история 60–90 с — живой разговорный русский, драматургия, конкретика, польза; script.json + script.txt; числа словами, бренды фонетикой. Director MUST delegate via Task with model gemini-3.8-flash.
+model: gemini-3.8-flash
 readonly: false
 is_background: false
 ---

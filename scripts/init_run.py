@@ -1,4 +1,4 @@
-"""Create a run directory: framepro-memory/runs/<slug>/ with brief, folders and fragment files.
+"""Create a run directory: aphelia-memory/runs/<slug>/ with brief, folders and fragment files.
 
     python scripts/init_run.py --slug hf-agents-breach --topic "..." [--source URL ...] [--duration 75]
 """
@@ -36,7 +36,7 @@ def init(slug: str, topic: str, sources: list[str], duration: int, engine: str, 
     }
     write_json(run / "brief.json", brief)
     (run / "00-brief.md").write_text(
-        "# Framepro — brief\n\n"
+        "# Aphelia — brief\n\n"
         f"- slug: `{slug}`\n- тема: {topic}\n- источники: {', '.join(sources) or '—'}\n"
         f"- длительность: {brief['min_seconds']}–{brief['max_seconds']} с (цель {duration})\n"
         f"- движок: {engine}\n- аудитория: {audience}\n- CTA: {cta}\n- голос: narrator-ru (Qwen3-TTS clone)\n- стиль: белая доска, стикмен-вырезки\n",

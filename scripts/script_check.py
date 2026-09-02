@@ -13,6 +13,7 @@ import re
 from pathlib import Path
 
 from common import read_json, say, write_json
+from voice_lexicon import latin_brand_tokens
 
 WORDS_PER_SEC = 2.35  # measured on the narrator-ru voice at tempo 1.06 (short punchy sentences)
 
@@ -52,8 +53,12 @@ def main() -> None:
     words = re.findall(r"[а-яА-ЯёЁa-zA-Z0-9]+(?:-[а-яА-ЯёЁ]+)*", text)
     latin = sorted({w for w in words if re.search(r"[a-zA-Z]", w)})
     digits = sorted({w for w in words if re.search(r"\d", w)})
-    if latin:
-        errors.append(f"Latin words (write them as they sound in Russian): {latin}")
+    allowed = latin_brand_tokens()
+    latin_blocked = [w for w in latin if w.lower() not in allowed]
+    if latin_blocked:
+        errors.append(f"Latin words (write them as they sound in Russian, or use an allowlisted brand): {latin_blocked}")
+    if latin and not latin_blocked:
+        warnings.append(f"Latin brands in say (allowed): {latin}")
     if digits:
         errors.append(f"digits (write numbers as words): {digits}")
     sents = sentences(text)

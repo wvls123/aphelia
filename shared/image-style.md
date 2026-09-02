@@ -22,13 +22,14 @@ Subject: <SUBJECT>.
 - Один субъект / одна понятная сцена на картинку.
 - После генерации: `python scripts/cutout.py --project <run>` → все `assets/raw/*.png` становятся `assets/cut/*.png` с альфой (rembg + маска по чернилам, чтобы не терять тонкие линии). Отчёт `assets/cutout-report.json` — `transparent_ratio` должен быть ≥ 0.35, иначе картинка не вырезалась (серый фон, тени) — перегенерировать.
 - Сырые картинки лежат в `<run>/assets/raw/`, готовые вырезки — в `<run>/assets/cut/`. В storyboard всегда `cut/<name>.png`.
-- Генерация: инструмент `GenerateImage` (namespace `cursor`), размер 1024×1024 или 1024×1536 для персонажей во весь рост; fallback — MCP `user-mcp-kv` → `gpt-image-2`. Файл результата копировать в `assets/raw/<name>.png`.
+- Генерация: инструмент `GenerateImage` (namespace `cursor`) **на каждый ролик заново**, с `reference_image_paths` на `templates/stickers/_style-reference.png`. Fallback — MCP `user-mcp-kv` → `gpt-image-2`. Файл результата копировать в `assets/raw/<name>.png`.
+- **Не** подставлять готовые PNG из `templates/stickers/` (кроме `_style-reference.png` как референса стиля). Одинаковое имя (`char-shock`) ≠ тот же рисунок: в этом run картинка новая.
 
 ## Именование
 
 - `char-<эмоция|поза>` — стикмен: `shock, point, think, shrug, celebrate, run, facepalm, idea, stop, whisper, sleep, angry, wave`.
 - `ill-<предмет>` — предмет или мини-сцена: `sandbox, wall, rack, cage, calendar, megaphone, lock, cloud, chart, shield, bug, key, phone, laptop`.
-- Персонажи переиспользуются между роликами: перед генерацией проверь `templates/stickers/` (библиотека готовых вырезок) и скопируй оттуда, если подходит.
+- Имена — схема для сториборда, не склад. Subject в промпте берётся из `visual_idea` **этой** новости.
 
 ## Набор текущего ролика
 

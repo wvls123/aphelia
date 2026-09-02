@@ -3,7 +3,7 @@
 Exit code 1 on errors. Warnings are advisory (variety, pacing). Output: JSON with errors/warnings/stats
 and <run>/storyboard-validation.json.
 
-    python scripts/validate_storyboard.py --project framepro-memory/runs/<slug>
+    python scripts/validate_storyboard.py --project aphelia-memory/runs/<slug>
 """
 
 from __future__ import annotations

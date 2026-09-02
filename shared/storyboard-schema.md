@@ -1,6 +1,6 @@
 # Storyboard v5 — схема (единственный источник правды для рендера Remotion)
 
-Файл: `<run>/storyboard.json`. Пишет агент `framepro-storyboarder`. Проверка: `python scripts/validate_storyboard.py --project <run>` → 0 errors обязательно, warnings — устранить или обосновать во фрагменте. Затем `python scripts/timeline.py --project <run>` создаёт `timeline.json` с абсолютными секундами. Каталог эффектов и когда что применять — `shared/remotion-capabilities.md`, `shared/motion-library.md`.
+Файл: `<run>/storyboard.json`. Пишет агент `aphelia-storyboarder`. Проверка: `python scripts/validate_storyboard.py --project <run>` → 0 errors обязательно, warnings — устранить или обосновать во фрагменте. Затем `python scripts/timeline.py --project <run>` создаёт `timeline.json` с абсолютными секундами. Каталог эффектов и когда что применять — `shared/remotion-capabilities.md`, `shared/motion-library.md`.
 
 Холст 1080×1920, 30 fps. Координаты — пиксели холста. Безопасные зоны: сверху ≥180 px (UI платформы), снизу субтитры на `captions.y` (по умолчанию 1560) — не ставить важные объекты в 1480–1700 по y, ниже 1700 — UI платформы.
 

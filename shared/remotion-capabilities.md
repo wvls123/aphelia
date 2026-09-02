@@ -1,4 +1,4 @@
-# Remotion capabilities — что есть у режиссёра монтажа (для `framepro-storyboarder`)
+# Remotion capabilities — что есть у режиссёра монтажа (для `aphelia-storyboarder`)
 
 Движок один — **Remotion 4.0.520** (React). Всё ниже реализовано в `templates/remotion/src` на официальных пакетах и включается **полями `storyboard.json`** — писать код не нужно. Когда нужного эффекта нет, есть **`custom`-слой**: агент пишет свой React-компонент (раздел 7).
 

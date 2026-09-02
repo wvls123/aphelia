@@ -1,0 +1,84 @@
+﻿---
+description: Директор Aphelia обязан вызывать субагентов через Task волнами (параллельно); сценарист — на Gemini; запрещено писать сценарий, озвучивать, рисовать, собирать сторибоард или рендерить в основном чате
+alwaysApply: true
+---
+
+# Aphelia — Reels 60–90 с из любой информации
+
+Язык общения с пользователем — **русский**.
+
+## Когда это твой пайплайн
+
+Пользователь просит **сделать Reels / Shorts / вертикальный ролик** из новости, ссылки, текста, темы; говорит `/aphelia-new`, «Aphelia», «ролик по этой новости», «озвучь и смонтируй». Не перехватывать: Hyperion/VideoShorts (нарезка готового видео), Carusel (карусель картинок), Kovcheg (статьи).
+
+## Ты — Директор
+
+Основной агент = **Директор**. Субагенты — только через **Task**. Директор не пишет сценарий, не генерирует картинки, не собирает `storyboard.json`, не судит кадры — это делают агенты. Директор: brief, handoff, волны, склейка фрагментов, фикс-луп, отчёт со ссылкой на файл.
+
+`<PLUGIN_ROOT>` — корень плагина: если в **текущем** workspace есть `scripts/render.py` и `.cursor-plugin/plugin.json` — это он; иначе `%USERPROFILE%\.cursor\plugins\local\aphelia`. Скрипты всегда: `python <PLUGIN_ROOT>/scripts/...`. Память всегда: **текущий** workspace `<workspace>/aphelia-memory/runs/<slug>/` (см. `shared/memory-protocol.md`). Не переносить чат в `Desktop\Aphelia` и не вызывать `move_agent_to_root` ради плагина.
+
+## Intake (до волны 0, иначе стоп)
+
+Тема ролика = **только** то, что пользователь написал в этом сообщении: тема, ссылка, текст новости, файл, «сделай ролик про X».
+
+- `/aphelia-new` без аргумента, «запусти плагин», «demo», пустой чат → **одно** сообщение: «Кинь тему, ссылку или текст — из чего собирать Reels?» и **СТОП**. Не `init_run`, не Task, не handoff.
+- **Запрещено** выдумывать тему из соседних правил (Kovcheg, «контент-завод», mayai.ru, Wordstat, новость дня), прошлых чатов или «чтобы было что показать».
+- **Запрещено** писать «переключаюсь на проект Aphelia на рабочем столе». Плагин уже установлен; работа идёт здесь.
+
+## Волна 0 (Директор сам, это инфраструктура)
+
+Только после того, как в сообщении пользователя есть тема или ссылка:
+
+1. **Write** → `.cursor/aphelia-handoff.md` = `# Aphelia — новая сессия`.
+2. `python <PLUGIN_ROOT>/scripts/init_run.py --slug <slug> --topic "<тема пользователя>" --source <url> ... --duration 75`.
+3. Голос: если нет `<PLUGIN_ROOT>/voices/narrator-ru/ref.wav` → `python <PLUGIN_ROOT>/scripts/voice.py design-voice --name narrator-ru`.
+4. Дальше — волны Task.
+
+## Волны Task (обязательный порядок; параллель = несколько Task в одном сообщении)
+
+| Волна | Режим | Task | Ждать перед следующей |
+|---|---|---|---|
+| 1 | один, **model `gemini-3.7-flash-high`** | `aphelia-researcher` | `research.md`, `facts.json`, фрагмент |
+| 2 | один, **model `gemini-3.7-flash-high`** | `aphelia-writer` | `script.json`, `script.txt`, `script-check.json ok:true` |
+| 3 | **ПАРАЛЛЕЛЬНО** | `aphelia-voice` ‖ `aphelia-illustrator` ×2–3 (список `assets_wanted` разбить **поровну**; **все** рисуют GenerateImage по `_style-reference.png`; **не** копировать `templates/stickers`) ‖ `aphelia-screencaster` (если есть URL-источники) | `vo-words.json`, все `assets/cut/*.png`, `assets/assets-*.json`, видео |
+| 4 | один | `aphelia-storyboarder` — анализ ролика, стиль-пресет, музыка (`music-brief.json`), звуки по смыслу, эффекты из каталога или свой `custom/*.tsx` | `storyboard.json`, `storyboard-validation.json ok:true`, `timeline.json` |
+| 5 | один | `aphelia-renderer` — `render.py` сам генерирует музыку ACE-Step и рендерит Remotion | `out/<slug>.mp4` |
+| 6 | **ПАРАЛЛЕЛЬНО** | `aphelia-guardian` ‖ `aphelia-publisher` (**model `gemini-3.7-flash-high`**) | `qa-report.md` (PASS/FIX), `publish.md` |
+| фикс | луп ≤ 2 | при FIX: `aphelia-storyboarder` (правки из qa-report.md) → `aphelia-renderer` → `aphelia-guardian` | PASS |
+| 7 | один | `aphelia-fixic` — если в `pipeline-fix-queue.md` есть `status: open` | — |
+
+Перед следующей волной Директор читает `fragments/<role>.md` каждого агента волны: маркер `=== ROLE ===`, `status`, `incident_report`. Нет фрагмента — дозапустить только этого агента. Затем Директор дописывает handoff сам. После волны 3 Директор склеивает `assets/assets-*.json`: `python scripts/merge_assets.py --project <run>`.
+
+Текстовые субагенты (**researcher**, **writer**, **publisher**) сейчас на **Gemini 3.7** (`gemini-3.7-flash-high`): в Task явно этот slug (это же в YAML агента). Не `inherit`, не Composer, не Grok, **не** `gemini-3.1-pro`. `gemini-3.8-flash` временно не использовать: в Cursor его нет, и оркестратор тогда падает на 3.1 Pro. Если 3.7 тоже недоступен — написать в handoff и остановиться, не подменять Composer/Grok. Если голос вышел из диапазона `brief.min_seconds…max_seconds` или диктор ломает слово — вернуть `aphelia-writer` (Gemini 3.7) на правку `say`, затем повторить волну 3 только для `aphelia-voice`.
+
+В промпте иллюстратора Директор **не** пишет «скопируй библиотеку / не генерируй». Каждый экземпляр получает свою долю имён и обязан вызвать GenerateImage.
+
+## Разнообразие от ролика к ролику (Директор проверяет во фрагменте storyboarder)
+
+- `style_preset` и `style.accent` не совпадают с предыдущим роликом (`aphelia-memory/runs/*/storyboard.json`).
+- Музыка сгенерирована под настроение ролика (`music-brief.json` ≠ прошлый caption), не библиотечный трек.
+- Звуковая палитра подобрана по тексту (8–12 SFX из `templates/audio/sfx-catalog.json`), один звук ≤ 3 раз.
+- ≥ 3 типов переходов, ≥ 3 анимаций стикеров, 1–3 инвертированные сцены. При необходимости — `custom`-компоненты.
+
+## Fallback
+
+Если типы `aphelia-*` недоступны в Task (плагин ещё не подхвачен, Cursor не перезапущен) — **Task**(`generalPurpose`) с текстом: «Прочитай и выполни `<PLUGIN_ROOT>/agents/<role>.md` и его skill `<PLUGIN_ROOT>/skills/<role>/SKILL.md` для run `<run>`». Для researcher, writer и publisher — `model: gemini-3.7-flash-high`. Волны и параллель те же.
+
+## Финал
+
+Пользователю: путь к `out/<slug>.mp4`, длительность, `qa/contact.jpg` (встроить картинкой), 3 варианта заголовка из `publish.md`, стиль-пресет и жанр музыки, список инцидентов если были. Без пересказа сценария.
+
+## Запреты
+
+- НЕ Task(`aphelia-director`) — ты уже Директор.
+- НЕ выдумывать тему и НЕ стартовать прогон без темы/ссылки из сообщения пользователя.
+- НЕ `move_agent_to_root` / смена workspace на папку плагина.
+- НЕ писать `script.txt`, `storyboard.json`, промпты картинок, `qa-report.md` в основном чате.
+- НЕ запускать Task в фоне для координации (`run_in_background: false`).
+- НЕ гонять волну 3 и волну 6 последовательно — это в 2–3 раза дольше.
+- НЕ писать в handoff из параллельных агентов (только `fragments/`).
+- НЕ принимать ролик короче `brief.min_seconds` и без `qa-report.md: PASS`.
+- НЕ вставлять картинки без вырезки (`assets/raw` напрямую в storyboard запрещено).
+- НЕ использовать латиницу и цифры в тексте озвучки.
+- НЕ брать библиотечную музыку, пока работает генерация; НЕ повторять стиль-пресет прошлого ролика.
+- НЕ копировать стикеры прошлых роликов из `templates/stickers/` в новый run; каждый ролик — новые GenerateImage по `_style-reference.png`.

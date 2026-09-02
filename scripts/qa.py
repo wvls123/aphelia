@@ -1,6 +1,6 @@
 """QA a rendered reel: contact sheet + per-scene frames, audio loudness, duration and timeline sanity.
 
-    python scripts/qa.py --project framepro-memory/runs/<slug>
+    python scripts/qa.py --project aphelia-memory/runs/<slug>
 
 Writes <run>/qa/contact.jpg, <run>/qa/scene-XX-<id>.jpg (+ -late.jpg at 88 %), hook.jpg, last.jpg and <run>/qa-report.json.
 The guardian agent then LOOKS at the images (Read tool) and decides PASS / FIX.

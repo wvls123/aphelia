@@ -1,8 +1,8 @@
-# Memory protocol — общая память Framepro
+# Memory protocol — общая память Aphelia
 
 ## Корень
 
-`<workspace>/framepro-memory/` (переопределяется `FRAMEPRO_MEMORY`). Каждый ролик — `runs/<slug>/`:
+`<workspace>/aphelia-memory/` (переопределяется `APHELIA_MEMORY`). Каждый ролик — `runs/<slug>/`:
 
 ```text
 runs/<slug>/
@@ -39,7 +39,7 @@ runs/<slug>/
 
 ## Handoff
 
-`.cursor/framepro-handoff.md` — только Директор. Сброс через Write одной строкой `# Framepro — новая сессия`. Параллельные агенты одной волны **не** пишут в handoff — только `fragments/<role>.md`; Директор переносит.
+`.cursor/aphelia-handoff.md` — только Директор. Сброс через Write одной строкой `# Aphelia — новая сессия`. Параллельные агенты одной волны **не** пишут в handoff — только `fragments/<role>.md`; Директор переносит.
 
 ## Фрагмент агента (обязательный формат)
 

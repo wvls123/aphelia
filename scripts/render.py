@@ -1,6 +1,6 @@
 """Render a run with Remotion: timeline → sync → `remotion render` → loudness-normalised MP4 in <run>/out/.
 
-    python scripts/render.py --project framepro-memory/runs/<slug> [--skip-timeline] [--concurrency 8]
+    python scripts/render.py --project aphelia-memory/runs/<slug> [--skip-timeline] [--concurrency 8]
 
 Steps: timeline.py → prepare run assets (SFX/BGM the timeline references) → sync_remotion.py (data.ts,
 public/, custom components) → npx remotion render → ffmpeg loudnorm (−14 LUFS, limiter −1 dBTP, faststart).
@@ -22,9 +22,9 @@ REMOTION = TEMPLATES / "remotion"
 
 def generate_music(project: Path) -> None:
     """Original bed via ACE-Step (scripts/music.py inside its own uv environment)."""
-    ace = Path(os.environ.get("FRAMEPRO_ACE_STEP", PLUGIN_ROOT / "vendor" / "ace-step"))
+    ace = Path(os.environ.get("APHELIA_ACE_STEP", PLUGIN_ROOT / "vendor" / "ace-step"))
     if not (ace / "pyproject.toml").exists():
-        raise SystemExit(f"ACE-Step not installed at {ace} — run install-plugin.ps1 or set FRAMEPRO_ACE_STEP")
+        raise SystemExit(f"ACE-Step not installed at {ace} — run install-plugin.ps1 or set APHELIA_ACE_STEP")
     uv = shutil.which("uv")
     if not uv:
         raise SystemExit("uv not found on PATH (needed for ACE-Step)")

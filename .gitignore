@@ -11,8 +11,15 @@ out/
 templates/remotion/public/
 templates/remotion/out/
 templates/remotion/src/data.ts
+aphelia-memory/
 framepro-memory/
-.cursor/framepro-handoff.md
+.cursor/aphelia-handoff.md
 .cursor/*.md
 youtube-to-claude-agent-*.mp4
-docs/reference-analysis/
+docs/
+tests/
+test_*.py
+*_test.py
+_rename_to_aphelia.py
+templates/stickers/*.png
+!templates/stickers/_style-reference.png

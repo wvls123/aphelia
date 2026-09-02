@@ -1,4 +1,4 @@
-"""Shared paths and helpers for Framepro scripts (plugin-root aware)."""
+"""Shared paths and helpers for Aphelia scripts (plugin-root aware)."""
 
 from __future__ import annotations
 
@@ -19,11 +19,16 @@ VOICES = PLUGIN_ROOT / "voices"
 
 
 def memory_root() -> Path:
-    """Where runs live: <workspace>/framepro-memory (env FRAMEPRO_MEMORY overrides)."""
-    env = os.environ.get("FRAMEPRO_MEMORY")
+    """Where runs live: <workspace>/aphelia-memory (env APHELIA_MEMORY overrides)."""
+    env = os.environ.get("APHELIA_MEMORY")
     if env:
         return Path(env)
-    return Path.cwd() / "framepro-memory"
+    cwd = Path.cwd()
+    new = cwd / "aphelia-memory"
+    old = cwd / "framepro-memory"
+    if not new.exists() and old.exists():
+        return old
+    return new
 
 
 def run_dir(slug: str) -> Path:

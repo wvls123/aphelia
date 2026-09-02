@@ -6,7 +6,7 @@ Runs inside the ACE-Step environment:
     uv run --directory <PLUGIN_ROOT>/vendor/ace-step python <PLUGIN_ROOT>/scripts/music.py --project <run>
 
 Input:  <run>/music-brief.json  {"caption": "...", "bpm": 118, "duration": 78, "candidates": 2, "seed": null}
-        (written by framepro-storyboarder after analysing the script's mood; CLI flags override)
+        (written by aphelia-storyboarder after analysing the script's mood; CLI flags override)
 Output: <run>/assets/audio/bgm-generated.mp3 (bed level −18 LUFS, fades) + <run>/music-report.json
 """
 
@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
-ACE_ROOT = Path(os.environ.get("FRAMEPRO_ACE_STEP", PLUGIN_ROOT / "vendor" / "ace-step"))
+ACE_ROOT = Path(os.environ.get("APHELIA_ACE_STEP", PLUGIN_ROOT / "vendor" / "ace-step"))
 sys.path.insert(0, str(PLUGIN_ROOT / "scripts"))
 
 from common import ffprobe_duration, read_json, say, write_json  # noqa: E402

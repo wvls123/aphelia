@@ -1,14 +1,14 @@
-"""Framepro voice: Russian narration with Qwen3-TTS (latest 12Hz-1.7B family), stress marks and self-verification.
+"""Aphelia voice: Russian narration with Qwen3-TTS (latest 12Hz-1.7B family), stress marks and self-verification.
 
 Pipeline per run:
   1. Brand voice reference (once): Qwen3-TTS VoiceDesign designs a natural narrator from a
      text description; the best take (verified by Whisper, fastest clean delivery) is saved to
      voices/<name>/ref.wav + ref.txt. Cloning that reference keeps the timbre identical across
      every sentence and every future reel.
-  2. Stress marks: ruaccent places '+' before the stressed vowel (context-aware for homographs:
-     зАмок/замОк). We convert to the combining acute accent U+0301 — the only notation the Base
-     model honours (A/B: 79% vs 50% chance) — and put the same notation into the reference text,
-     so the clone prompt teaches the model what the mark means.
+  2. Stress marks: the ruaccent library (turbo3.1 + dictionary) places '+' before the stressed
+     vowel (context-aware for homographs: зАмок/замОк). Loanwords it misses live in
+     voice-lexicon.json → ruaccent_custom_dict. We convert to combining acute U+0301 — the
+     only notation the Base model honours — and put the same notation into the reference text.
   3. Every sentence is generated separately, trimmed, transcribed by Whisper (text similarity),
      and stress-checked with MMS forced alignment (stressed vowel = longest/loudest). Bad takes
      are regenerated; if marks keep breaking a sentence, an unmarked take is tried.
@@ -28,6 +28,12 @@ from pathlib import Path
 import numpy as np
 
 from common import VOICES, ffprobe_duration, say, sh, write_json
+from voice_lexicon import (
+    apply_latin_for_tts,
+    fold_latin_brands_to_cyrillic,
+    force_mark_words,
+    ruaccent_custom_dict,
+)
 
 VOWELS = "аеёиоуыэюя"
 ACUTE = "\u0301"
@@ -69,9 +75,11 @@ LATIN_NAMES = {
 
 
 def normalize(text: str) -> str:
-    """Lower-case Cyrillic word soup without numerals; Latin acronyms Whisper emits ('LTX') are
-    spelled out the way the script writes them ('эл ти икс')."""
-    text = strip_marks(text).lower().replace("ё", "е")
+    """Lower-case Cyrillic word soup without numerals; known Latin brands fold to phonetics
+    (GitHub → гитхаб) so they are not spelled letter-by-letter. Remaining Latin acronyms
+    Whisper emits ('LTX') are spelled out ('эл ти икс')."""
+    text = fold_latin_brands_to_cyrillic(strip_marks(text))
+    text = text.lower().replace("ё", "е")
     tokens: list[str] = []
     for tok in re.findall(r"[а-я]+|[a-z]+", text):
         if re.fullmatch(r"[a-z]+", tok):
@@ -158,30 +166,44 @@ def trim_silence(wav: np.ndarray, sr: int, thresh_db: float = -40.0, keep: float
 # ---------- models ----------
 
 class Accentuator:
-    """ruaccent wrapper. `plus` marks every word; `selective` keeps marks only where they help.
+    """ruaccent (Den4ikAI) is the stress dictionary. We do not invent + placement for Russian.
 
-    Marking every word makes Qwen3-TTS mangle common words (measured: sim 0.7 vs 1.0), so for
-    narration we mark only homographs (зАмок/замОк), words unknown to the accent dictionary
-    (brands, rare terms) and explicit overrides. The reference text stays fully marked so the
-    clone prompt still teaches the notation.
+    Qwen3-TTS mangles common words if every word is marked (measured: sim 0.7 vs 1.0), so
+    narration keeps U+0301 only on qwen_force_marks / custom_dict / run overrides. Reference
+    text stays fully marked so the clone prompt still teaches the notation.
     """
 
     def __init__(self) -> None:
         from ruaccent import RUAccent
 
+        custom = ruaccent_custom_dict()
         self.acc = RUAccent()
-        self.acc.load(omograph_model_size="turbo3.1", use_dictionary=True, tiny_mode=False)
+        self.acc.load(
+            omograph_model_size="turbo3.1",
+            use_dictionary=True,
+            tiny_mode=False,
+            custom_dict=custom,
+        )
+        self.force_overrides: dict[str, str] = dict(custom)
+        for word in force_mark_words():
+            if word in self.force_overrides:
+                continue
+            marked = self.acc.accents.get(word)
+            if marked and "+" in marked:
+                self.force_overrides[word] = marked
 
     def plus(self, text: str) -> str:
         return self.acc.process_all(text)
 
     def selective(self, text: str, overrides: dict[str, str], marks: str = "overrides") -> str:
-        """marks: 'overrides' — only forced words; 'homographs' — also dictionary homographs and
-        words unknown to the accent dictionary; 'none' — strip everything."""
+        """marks: 'overrides' — Qwen problem words + ruaccent custom_dict; 'homographs' — also
+        dictionary homographs and words unknown to ruaccent; 'none' — strip everything."""
         plus = self.plus(text)
-        for word, forced in overrides.items():
-            plus = re.sub(rf"(?i)(?<![а-яё+]){re.escape(word)}(?![а-яё])", forced, plus)
-        forced_words = {strip_marks(v).lower() for v in overrides.values()}
+        forced = dict(self.force_overrides)
+        forced.update(overrides)
+        plus = overlay_forced(plus, forced)
+        forced_words = set(force_mark_words())
+        forced_words |= {strip_marks(v).lower() for v in forced.values()} | {k.lower() for k in forced}
         out: list[str] = []
         for token in re.split(r"(\s+)", plus):
             if "+" not in token:
@@ -196,6 +218,31 @@ class Accentuator:
                 keep = False
             out.append(token if keep else token.replace("+", ""))
         return "".join(out)
+
+
+def overlay_forced(plus: str, forced: dict[str, str]) -> str:
+    """Replace a token by its unmarked lemma so ruaccent's '+' does not block custom_dict."""
+    by_clean = {k.lower(): v for k, v in forced.items()}
+    out: list[str] = []
+    for token in re.split(r"(\s+)", plus):
+        core = re.sub(r"[^а-яёА-ЯЁ+]", "", token)
+        form = by_clean.get(core.replace("+", "").lower())
+        if form and core:
+            token = token.replace(core, _cap_marked(core, form), 1)
+        out.append(token)
+    return "".join(out)
+
+
+def _cap_marked(original_core: str, form: str) -> str:
+    bare = original_core.replace("+", "")
+    if not bare[:1].isupper():
+        return form
+    chars = list(form)
+    for i, ch in enumerate(chars):
+        if ch != "+":
+            chars[i] = ch.upper()
+            break
+    return "".join(chars)
 
 
 class Verifier:
@@ -366,15 +413,16 @@ def synthesize(
     overrides: dict[str, str],
     marks: str = "overrides",
     marked_min_sim: float = 0.97,
+    tts_latin: bool = True,
 ) -> dict:
     """Take policy (measured on narrator-ru):
 
     1. An unmarked take comes first — the model pronounces common words and known brands
        correctly on its own, and marks add an audible glide on the stressed vowel in ~1/3 of takes.
-    2. Marks are used only for words the writer explicitly forced (`stress-overrides.json`) or,
-       with --marks homographs, also for dictionary homographs. A marked take replaces the clean
-       one only when Whisper hears it almost perfectly (sim ≥ marked_min_sim) and the forced-alignment
-       stress check does not contradict it.
+    2. Marks are used only for words ruaccent marked that are in qwen_force_marks / custom_dict
+       or the run's stress-overrides.json; with --marks homographs, also for dictionary homographs.
+       A marked take replaces the clean one only when Whisper hears it almost perfectly
+       (sim ≥ marked_min_sim) and the forced-alignment stress check does not contradict it.
     3. Any take that Whisper cannot confirm (sim < min_sim) or that runs too long is regenerated.
     """
     import soundfile as sf
@@ -406,7 +454,10 @@ def synthesize(
             return all(w.replace("ё", "е") in heard_norm for w in marked_words)
 
         def run_take(attempt: int, use_marks: bool) -> tuple[float, np.ndarray, TakeLog]:
-            wav, rate = synth.take(marked_sentence if use_marks else sentence)
+            spoken = marked_sentence if use_marks else sentence
+            if tts_latin:
+                spoken = apply_latin_for_tts(spoken)
+            wav, rate = synth.take(spoken)
             wav = trim_silence(wav, rate)
             dur = len(wav) / rate
             heard = verifier.heard(wav, rate)
@@ -509,6 +560,9 @@ def main() -> None:
     n.add_argument("--marks", choices=["overrides", "homographs", "none"], default="overrides", help="where to put U+0301 stress marks")
     n.add_argument("--marked-min-sim", type=float, default=0.97, help="Whisper similarity a marked take needs to replace the clean one")
     n.add_argument("--stress-overrides", default="stress-overrides.json", help="{word: 'w+ord'} in project dir")
+    n.add_argument("--no-tts-latin", action="store_true", help="do not rewrite Cyrillic brand spellings to Latin for TTS")
+    n.add_argument("--output-dir", default="", help="write vo.wav/mp3 here instead of <run>/assets (does not overwrite production)")
+    n.add_argument("--skip-align", action="store_true", help="skip Whisper word timestamps")
     n.add_argument("--limit", type=int, default=0)
 
     args = ap.parse_args()
@@ -521,7 +575,8 @@ def main() -> None:
         return
 
     project = Path(args.project)
-    assets = project / "assets"
+    assets = Path(args.output_dir) if args.output_dir else project / "assets"
+    assets.mkdir(parents=True, exist_ok=True)
     text = (project / args.script).read_text(encoding="utf-8").strip()
     if args.limit:
         text = " ".join(split_sentences(text)[: args.limit])
@@ -529,21 +584,42 @@ def main() -> None:
     if not (voice_dir / "ref.wav").exists():
         raise SystemExit(f"voice {args.voice} not found — run: python scripts/voice.py design-voice --name {args.voice}")
     overrides_path = project / args.stress_overrides
-    overrides = json.loads(overrides_path.read_text(encoding="utf-8")) if overrides_path.exists() else {}
+    run_overrides = json.loads(overrides_path.read_text(encoding="utf-8")) if overrides_path.exists() else {}
 
     verifier = Verifier("small")
     acc = Accentuator()
     checker = None if (args.no_stress_check or args.marks == "none") else StressChecker()
     raw = assets / "vo-raw.wav"
-    report = synthesize(text, voice_dir, raw, verifier, acc, checker, args.gap, args.tries, args.min_sim, overrides, args.marks, args.marked_min_sim)
+    report = synthesize(
+        text,
+        voice_dir,
+        raw,
+        verifier,
+        acc,
+        checker,
+        args.gap,
+        args.tries,
+        args.min_sim,
+        run_overrides,
+        args.marks,
+        args.marked_min_sim,
+        tts_latin=not args.no_tts_latin,
+    )
     report["marks_mode"] = args.marks
+    report["tts_latin"] = not args.no_tts_latin
+    report["stress_override_keys"] = sorted({*acc.force_overrides, *run_overrides})
     del checker
     duration = tighten(raw, assets / "vo.wav", assets / "vo.mp3", args.tempo)
-    words = align(assets / "vo.wav", assets / "vo-words.json")
-    (assets / "vo-duration.txt").write_text(f"{duration:.3f}", encoding="ascii")
-    report.update({"duration": round(duration, 2), "words": len(words["words"]), "tempo": args.tempo})
-    write_json(project / "voice-report.json", report)
-    say({"duration": report["duration"], "words": report["words"], "sentences": report["sentences"], "doubtful_stress": len(report["doubtful_stress"]), "report": str(project / "voice-report.json")})
+    report.update({"duration": round(duration, 2), "tempo": args.tempo})
+    if not args.skip_align:
+        words = align(assets / "vo.wav", assets / "vo-words.json")
+        report["words"] = len(words["words"])
+        (assets / "vo-duration.txt").write_text(f"{duration:.3f}", encoding="ascii")
+    else:
+        report["words"] = 0
+        (assets / "vo-duration.txt").write_text(f"{duration:.3f}", encoding="ascii")
+    write_json(assets / "voice-report.json" if args.output_dir else project / "voice-report.json", report)
+    say({"duration": report["duration"], "words": report.get("words", 0), "sentences": report["sentences"], "doubtful_stress": len(report["doubtful_stress"]), "report": str((assets if args.output_dir else project) / "voice-report.json")})
 
 
 if __name__ == "__main__":

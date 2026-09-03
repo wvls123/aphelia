@@ -310,7 +310,7 @@ def resolve_layer(raw: dict, sc: dict, sw: list[dict], assets: Path) -> dict:
         layer.setdefault("src", "vo.mp3")
         layer.setdefault("w", 600)
         layer.setdefault("h", 240)
-        layer.setdefault("bars", 24)
+        layer.setdefault("bars", 32)
         layer.setdefault("color", "accent")
     elif kind == "lottie":
         layer.setdefault("loop", True)

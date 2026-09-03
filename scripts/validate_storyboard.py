@@ -21,6 +21,7 @@ SAFE_TOP = 180  # platform UI overlays
 SAFE_BOTTOM = 1700
 EST_WPS = 2.6  # narration pace used for pre-voice timing estimates
 MIN_CRASH_GAP = 5.0  # seconds between two camera crashes (motion-library: 6–8 s recommended)
+WAVEFORM_BARS_POW2 = {8, 16, 32, 64}  # visualizeAudio numberOfSamples must be pow2; render rounds up but prefer these
 
 
 def words_of(text: str) -> list[str]:
@@ -121,6 +122,15 @@ def validate(project: Path) -> dict:
                     errors.append(f"[{sid}] layer {li}: image needs w or h")
             if kind == "video" and not (assets / l.get("src", "")).exists():
                 errors.append(f"[{sid}] layer {li}: video not found assets/{l.get('src')}")
+            if kind == "waveform":
+                bars = int(l.get("bars", 32))
+                if not 8 <= bars <= 64:
+                    warnings.append(f"[{sid}] layer {li}: waveform bars={bars} — keep 8–64")
+                elif bars not in WAVEFORM_BARS_POW2:
+                    warnings.append(
+                        f"[{sid}] layer {li}: waveform bars={bars} is not a power of two — use 16, 32 or 64 "
+                        f"(visualizeAudio needs pow2 samples; render rounds up but uneven counts look wrong)"
+                    )
             if kind == "headline":
                 if l.get("anim", "rise") not in HEADLINE_ANIMS:
                     errors.append(f"[{sid}] layer {li}: unknown headline anim '{l.get('anim')}'")
@@ -248,6 +258,15 @@ def validate(project: Path) -> dict:
         warnings.append("all scenes on the same background — invert 1–3 punch scenes with bg: 'ink' or 'accent'")
     if str(sb["style"].get("accent", "")).upper() == "#C8FF3D" and sb.get("style_preset") not in (None, "whiteboard-lime"):
         warnings.append("accent is still the default lime — the style preset should set its own accent (vary colour reel to reel)")
+    cap = sb.get("captions") or {}
+    cap_style = cap.get("style", "box")
+    if cap_style == "karaoke":
+        long_scenes = sum(1 for sc in sb["scenes"] if len(words_of(sc.get("say", ""))) > 4)
+        if long_scenes >= 3:
+            warnings.append(
+                f"captions.style karaoke with {long_scenes} scenes over 4 words — words glue on long pages; "
+                f"use box/outline or max_sec ≤ 0.75 (see motion-library)"
+            )
     stats = {"scenes": n, "words": len(say_words), "est_seconds": round(len(say_words) / EST_WPS, 1), "transitions": dict(Counter(transitions)), "layer_types": dict(types), "image_anims": dict(anims), "bgs": dict(bgs), "camera_scenes": cam_scenes, "sfx_distinct": len(sfx_used), "style_preset": sb.get("style_preset")}
     result = {"ok": not errors, "errors": errors, "warnings": warnings, "stats": stats}
     write_json(project / "storyboard-validation.json", result)

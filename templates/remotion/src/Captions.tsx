@@ -12,6 +12,16 @@ const hexToRgb = (hex: string): [number, number, number] => {
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 };
 
+/** @remotion/captions tokens carry leading spaces — trim() glues words in karaoke/outline. */
+const tokenText = (raw: string, index: number, trimSpaces: boolean): string => {
+  if (!trimSpaces) {
+    const body = raw.trimEnd();
+    if (index === 0) return body.trimStart();
+    return body.startsWith(" ") ? body : ` ${body.trimStart()}`;
+  }
+  return raw.trim();
+};
+
 /**
  * Kinetic captions paged by @remotion/captions (TikTok style): 2–3 words per page, the spoken word
  * lights up in the accent colour; fitText keeps every page inside the safe width.
@@ -73,24 +83,27 @@ export const Captions: React.FC<{ words: Word[]; cfg: CaptionsCfg; style: Style 
       {page.tokens.map((tok, j) => {
         const on = nowMs >= tok.fromMs ? Math.min(1, (nowMs - tok.fromMs) / 80) : 0;
         const boxBg = `rgba(${mix(255, r, on)},${mix(255, g, on)},${mix(255, b, on)},${mix(0.86, 1, on)})`;
-        const common: React.CSSProperties = { display: "inline-block", margin: "0 6px", transform: `scale(${mix(1, 1.06, on)})` };
+        const trimSpaces = mode === "box";
+        const text = tokenText(tok.text, j, trimSpaces);
+        const gap = mode === "karaoke" ? "0 0.22em" : "0 6px";
+        const common: React.CSSProperties = { display: "inline-block", margin: gap, transform: `scale(${mix(1, 1.06, on)})` };
         if (mode === "outline") {
           return (
             <span key={j} style={{ ...common, color: on ? style.accent : "#fff", WebkitTextStroke: "8px #111", paintOrder: "stroke fill" }}>
-              {tok.text.trim()}
+              {text}
             </span>
           );
         }
         if (mode === "karaoke") {
           return (
             <span key={j} style={{ ...common, color: on ? style.accent : "#fff", textShadow: "0 4px 0 #111, 0 0 18px rgba(0,0,0,0.6)" }}>
-              {tok.text.trim()}
+              {text}
             </span>
           );
         }
         return (
           <span key={j} style={{ ...common, padding: "2px 14px", borderRadius: 14, color: "#111111", backgroundColor: boxBg, boxShadow: `0 0 0 3px ${boxBg}` }}>
-            {tok.text.trim()}
+            {text}
           </span>
         );
       })}

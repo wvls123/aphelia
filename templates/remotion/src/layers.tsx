@@ -601,11 +601,19 @@ const Shape: React.FC<{ l: ShapeLayer; pal: Palette; now: number; fps: number }>
   );
 };
 
+/** Remotion visualizeAudio requires numberOfSamples to be a power of two (e.g. 32, 64). */
+const pow2Samples = (n: number): number => {
+  let p = 2;
+  while (p < n) p <<= 1;
+  return p;
+};
+
 /** Audio-reactive bars driven by the voice (or bgm) — @remotion/media-utils visualizeAudio. */
 const Waveform: React.FC<{ l: WaveformLayer; pal: Palette; now: number; fps: number }> = ({ l, pal, now, fps }) => {
   const data = useAudioData(staticFile(l.src));
   if (now < l.t || !data) return null;
-  const vis = visualizeAudio({ fps, frame: Math.round(now * fps), audioData: data, numberOfSamples: l.bars, optimizeFor: "speed" });
+  const sampleCount = pow2Samples(l.bars);
+  const vis = visualizeAudio({ fps, frame: Math.round(now * fps), audioData: data, numberOfSamples: sampleCount, optimizeFor: "speed" }).slice(0, l.bars);
   const col = color(pal, l.color);
   const gap = 6;
   const bw = (l.w - gap * (l.bars - 1)) / l.bars;

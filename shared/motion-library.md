@@ -22,7 +22,7 @@
 | `whiteboard-lime` | `#C8FF3D` / `#FF3B30` | box | push, wipe, flash | объяснялки, дефолт первой волны — **не чаще 1 из 4 роликов** |
 | `newsroom-orange` | `#FF7A1A` / `#1B4DFF` | box | push, slice, flash, clock | новости, релизы, цифры |
 | `techno-cyan` | `#2AD4FF` / `#FF3B30` | outline | zoom, iris, flash, wipe | ИИ, код, нейросети, техно |
-| `hot-take-pink` | `#FF4FA3` / `#111111` | karaoke | flip, slice, zoom | мнение, спор, ирония |
+| `hot-take-pink` | `#FF4FA3` / `#111111` | karaoke | flip, slice, zoom | мнение, спор, ирония — **karaoke только на коротких фразах (≤ 4 слов в сцене)**; иначе `box` + `max_sec` 0.75 |
 | `notebook-yellow` | `#FFD400` / `#1B4DFF` | box | fade, push, iris | разбор кейса, «как работает», уроки |
 | `night-violet` | `#8B5CFF` / `#FF3B30` | outline | fade, clock, zoom + handheld 4–6 | расследование, риск, деньги, ночь |
 
@@ -50,7 +50,7 @@
 | **Реакция** | эмоция к факту | `image` char (`zoomin` крупно, h 1000–1200) + `stamp` | `crash` zoom 1.25 на лицо |
 | **Вывод / CTA** | последние 2 сцены | `bg: accent`, `headline` `words` + `list` из 2–3 правил, затем `image` char-celebrate (`drop`) + `label` «подпишись — …» | `slice` вход, `success` SFX |
 | **Доля / статистика** | «каждый третий», «40 процентов» | `shape: pie` (`progress` 0.4) + `bignum` рядом + `label` | `iris` вход, `clock-knob-spin` |
-| **Голос / звук** | речь про аудио, музыку, озвучку | `waveform` (src vo.mp3) под заголовком + `image` ill-speaker (`spring`) | `fade`, `handheld` 3 |
+| **Голос / звук** | речь про аудио, музыку, озвучку | `waveform` (src vo.mp3, **`bars`: 16 / 32 / 64** — степень двойки) + `image` ill-speaker (`spring`) | `fade`, `handheld` 3 |
 | **Время / дедлайн** | «12 дней», «до конца недели» | `clock` переход + `bignum` дней + `shape: pie` тающий | `clock`, `clock-tick-single` |
 | **Взрыв / вау** | рекорд, «впервые», шок | `shape: burst` (accent) за `stamp` + `image` char-shock `spring` + `trail` | `flash`, `impact-cine-big`, shake 12 |
 | **Свой приём** | ничего из списка не передаёт смысл | `custom` компонент (например счётчик, конфетти, карта) | по смыслу |

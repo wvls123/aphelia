@@ -64,7 +64,7 @@
 | `check` | `x`, `y` | `kind`: `check|cross`, `size` (220), `color` | галочка/крест штрихом |
 | `scribble` | `x`, `y`, `w`, `h` | `shape`: `circle|underline`, `color`, `width`, `dur` | обвести/подчеркнуть от руки |
 | `shape` | `x`, `y` | `shape`: `burst` (дефолт) `circle|ellipse|star|triangle|pie`, `size` (300), `color`, `anim`: `pop|spin|pulse`, `progress` (pie), `points`, `rot` | геометрия-акцент (взрыв за штампом, доля) |
-| `waveform` | `x`, `y` | `src` (vo.mp3), `w` (600), `h` (240), `bars` (24), `color` | эквалайзер, реагирующий на звук |
+| `waveform` | `x`, `y` | `src` (vo.mp3), `w` (600), `h` (240), `bars` (**32**, pow2: 8/16/32/64), `color` | эквалайзер, реагирующий на звук |
 | `video` | `src` ("videos/name.mp4"), `x`, `y`, `w`, `h` | `rot`, `url`, `seek` | рамка браузера с записью страницы |
 | `lottie` | `src` ("lottie/name.json"), `x`, `y` | `w`, `h`, `loop`, `speed` | анимированный стикер (лицензия!) |
 | `custom` | `component` (PascalCase), `x`, `y` | `props` | свой компонент `<run>/custom/<Name>.tsx` |

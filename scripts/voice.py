@@ -96,6 +96,11 @@ def similarity(expected: str, heard: str) -> float:
     return difflib.SequenceMatcher(None, a, b).ratio()
 
 
+def heard_has_glide(heard: str) -> bool:
+    """Acute/respell on -лия names often insert ю (Афелия → Афеюлия). Never keep those takes."""
+    return bool(re.search(r"афеюл|афиюл|феюл", normalize(heard)))
+
+
 def strip_marks(text: str) -> str:
     return text.replace(ACUTE, "").replace("+", "")
 
@@ -218,6 +223,64 @@ class Accentuator:
                 keep = False
             out.append(token if keep else token.replace("+", ""))
         return "".join(out)
+
+
+def plus_overrides(overrides: dict) -> dict[str, str]:
+    return {k: v for k, v in overrides.items() if isinstance(v, str) and k != "speak_as"}
+
+
+def speak_as_map(overrides: dict) -> dict[str, str]:
+    raw = overrides.get("speak_as")
+    return {str(k): str(v) for k, v in raw.items()} if isinstance(raw, dict) else {}
+
+
+def apply_speak_as(text: str, mapping: dict[str, str]) -> str:
+    """Replace whole words only. Identity mappings are skipped (no fake respell)."""
+    out = text
+    for src, dst in sorted(mapping.items(), key=lambda kv: len(kv[0]), reverse=True):
+        if not src or src == dst:
+            continue
+        out = re.sub(rf"(?<![а-яёА-ЯЁ]){re.escape(src)}(?![а-яёА-ЯЁ])", dst, out)
+    return out
+
+
+def speak_as_hits(sentence: str, mapping: dict[str, str]) -> dict[str, str]:
+    """Mappings that actually change a whole word in this sentence."""
+    hits: dict[str, str] = {}
+    for src, dst in mapping.items():
+        if not src or src == dst:
+            continue
+        if re.search(rf"(?<![а-яёА-ЯЁ]){re.escape(src)}(?![а-яёА-ЯЁ])", sentence):
+            hits[src] = dst
+    return hits
+
+
+def target_override_words(sentence: str, plus_map: dict[str, str]) -> set[str]:
+    words = {w.replace("ё", "е") for w in re.findall(r"[а-яё]+", sentence.lower())}
+    return words & override_lemmas(plus_map)
+
+
+def mms_confirmed(stress: list[dict], targets: set[str]) -> bool:
+    """True only if MMS reported ok for every human override word (empty report ≠ confirm)."""
+    if not targets:
+        return False
+    by_word = {str(r.get("word", "")).replace("ё", "е"): r for r in stress or []}
+    return all(bool(by_word.get(w) and by_word[w].get("ok")) for w in targets)
+
+
+def override_lemmas(overrides: dict[str, str]) -> set[str]:
+    lemmas: set[str] = set()
+    for key, val in overrides.items():
+        lemmas.add(strip_marks(key).lower().replace("ё", "е"))
+        lemmas.add(strip_marks(val).lower().replace("ё", "е"))
+    return lemmas
+
+
+def sentence_has_override(sentence: str, overrides: dict[str, str]) -> bool:
+    if not overrides:
+        return False
+    words = {w.replace("ё", "е") for w in re.findall(r"[а-яё]+", sentence.lower())}
+    return bool(words & override_lemmas(overrides))
 
 
 def overlay_forced(plus: str, forced: dict[str, str]) -> str:
@@ -398,6 +461,8 @@ class TakeLog:
     max_dur: float
     stress_acc: float
     stress: list[dict] = field(default_factory=list)
+    mode: str = "clean"
+    spoken: str = ""
 
 
 def synthesize(
@@ -422,8 +487,17 @@ def synthesize(
     2. Marks are used only for words ruaccent marked that are in qwen_force_marks / custom_dict
        or the run's stress-overrides.json; with --marks homographs, also for dictionary homographs.
        A marked take replaces the clean one only when Whisper hears it almost perfectly
-       (sim ≥ marked_min_sim) and the forced-alignment stress check does not contradict it.
-    3. Any take that Whisper cannot confirm (sim < min_sim) or that runs too long is regenerated.
+       (sim ≥ marked_min_sim) and every marked word is intact. MMS stress_acc is advisory
+       and must not block a marked take (it often hears the last vowel on names like Афелия).
+    3. If the sentence contains a human stress-overrides.json word: respell takes run only
+       when speak_as actually replaces a word in that sentence (лица→лиица, Афелия→Афеелия).
+       Plus-only overrides (драматургией) go to marked takes (acute on the stressed vowel).
+       Early-stop a respell/marks take only if MMS confirmed the override stress; otherwise
+       keep iterating the plan. Whisper does not hear stress, so a clean take with sim 1.0
+       would otherwise always beat the correct accent.
+       Glide (Афеюлия / афиюл): take is never eligible. If every marks/respell glides,
+       keep the clean «Афелия» take instead of the highest-sim glide.
+    4. Any take that Whisper cannot confirm (sim < min_sim) or that runs too long is regenerated.
     """
     import soundfile as sf
 
@@ -436,25 +510,53 @@ def synthesize(
     doubtful: list[dict] = []
     marked_sentences: list[str] = []
     for sentence in sentences:
-        plus = acc.selective(sentence, overrides, marks)
+        plus_map = plus_overrides(overrides)
+        speak_map = speak_as_map(overrides)
+        plus = acc.selective(sentence, plus_map, marks)
         marked_sentence = plus_to_acute(plus) if marks != "none" else sentence
         expected = expected_stress(plus) if marks != "none" else {}
         has_marks = ACUTE in marked_sentence
+        human_stress = sentence_has_override(sentence, plus_map)
         if has_marks:
             marked_sentences.append(marked_sentence)
         letters = len(re.sub(r"[^а-яА-ЯёЁa-zA-Z]", "", sentence))
         max_dur = 0.11 * letters + 0.9
         best: tuple[float, np.ndarray, TakeLog] | None = None
-        marked_words = set(expected)  # words that carry a mark in this sentence
+        best_clean: tuple[float, np.ndarray, TakeLog] | None = None
+        marked_words = set(expected)
         clean_sim = 0.0
+        hear_aliases = {
+            "лица": {"лица", "лиица"},
+            "афелия": {"афелия", "афеелия", "офелия"},
+            "курсор": {"курсор", "курсоор", "керсор", "кёрсор"},
+            "нейросети": {"нейросети", "нейросеети"},
+            "нейросеть": {"нейросеть", "нейросееть"},
+            "руки": {"руки", "рууки"},
+            "драматургией": {"драматургией", "драматургиией", "драматуургией"},
+        }
+        local_speak = speak_as_hits(sentence, speak_map)
+        respell_spoken = apply_speak_as(sentence, local_speak) if local_speak else sentence
+        has_respell = respell_spoken != sentence
+        targets = target_override_words(sentence, plus_map)
 
         def words_heard_intact(heard: str) -> bool:
-            """Every marked word must be heard exactly (kills 'Алибоюбы'-style glides)."""
+            """Every marked word must be heard (aliases allow tts respell like лиица)."""
             heard_norm = set(normalize(heard).split())
-            return all(w.replace("ё", "е") in heard_norm for w in marked_words)
+            for w in marked_words:
+                key = w.replace("ё", "е")
+                ok = key in heard_norm or bool(heard_norm & hear_aliases.get(key, set()))
+                if not ok:
+                    return False
+            return True
 
-        def run_take(attempt: int, use_marks: bool) -> tuple[float, np.ndarray, TakeLog]:
-            spoken = marked_sentence if use_marks else sentence
+        def run_take(attempt: int, mode: str) -> tuple[float, np.ndarray, TakeLog]:
+            use_marks = mode == "marks"
+            if mode == "marks":
+                spoken = marked_sentence
+            elif mode == "respell":
+                spoken = respell_spoken
+            else:
+                spoken = sentence
             if tts_latin:
                 spoken = apply_latin_for_tts(spoken)
             wav, rate = synth.take(spoken)
@@ -467,36 +569,79 @@ def synthesize(
             if checker is not None and expected and sim >= min_sim - 0.1:
                 stress_report, stress_acc = checker.check(wav, rate, sentence, expected)
             ok_dur = dur <= max_dur
-            if use_marks:
-                # a marked take replaces the clean one only if Whisper hears it at least as well
-                # AND every marked word is intact AND alignment does not contradict the stress
-                eligible = ok_dur and sim >= max(marked_min_sim, clean_sim) and words_heard_intact(heard) and stress_acc >= 0.5
+            if mode in {"marks", "respell"}:
+                if human_stress:
+                    intact = words_heard_intact(heard)
+                    mms_ok = mms_confirmed(stress_report, targets)
+                    eligible = ok_dur and sim >= min_sim and (intact or (mms_ok and sim >= 0.9))
+                else:
+                    eligible = ok_dur and sim >= max(marked_min_sim, clean_sim) and words_heard_intact(heard)
             else:
                 eligible = ok_dur and sim >= min_sim
-            score = sim + (0.02 if use_marks and eligible else 0.0) + (0.5 if eligible else 0.0) - (0.6 if not ok_dur else 0.0)
-            entry = TakeLog(sentence, attempt, use_marks, heard.strip(), round(sim, 3), round(dur, 2), round(max_dur, 2), round(stress_acc, 3), stress_report)
+                if human_stress:
+                    eligible = eligible and words_heard_intact(heard)
+            if heard_has_glide(heard):
+                eligible = False
+            marked_boost = 0.25 if (human_stress and mode in {"marks", "respell"} and eligible) else (0.02 if use_marks and eligible else 0.0)
+            score = sim + marked_boost + (0.5 if eligible else 0.0) - (0.6 if not ok_dur else 0.0)
+            if human_stress and eligible and mms_confirmed(stress_report, targets):
+                score += 0.3
+            if heard_has_glide(heard):
+                score -= 1.5
+            if "афелия" in set(normalize(heard).split()):
+                score += 0.15
+            entry = TakeLog(
+                sentence,
+                attempt,
+                mode == "marks",
+                heard.strip(),
+                round(sim, 3),
+                round(dur, 2),
+                round(max_dur, 2),
+                round(stress_acc, 3),
+                stress_report,
+                mode,
+                spoken,
+            )
             log.append(entry)
             return score, wav, entry
 
-        plan: list[bool] = [False]  # clean take first
-        if has_marks:
-            plan.append(True)
-        while len(plan) < tries:
-            plan.append(False)
-        for attempt, use_marks in enumerate(plan):
-            score, wav, entry = run_take(attempt, use_marks)
-            if not use_marks:
+        if human_stress and (has_marks or has_respell):
+            plan: list[str] = (["respell"] * 8 if has_respell else []) + (["marks"] * 4 if has_marks else []) + ["clean"] * 3
+        else:
+            plan = ["clean"]
+            if has_marks:
+                plan.append("marks")
+            while len(plan) < tries:
+                plan.append("clean")
+        for attempt, mode in enumerate(plan):
+            score, wav, entry = run_take(attempt, mode)
+            if mode == "clean":
                 clean_sim = max(clean_sim, entry.sim)
+                if best_clean is None or score > best_clean[0]:
+                    best_clean = (score, wav, entry)
             if best is None or score > best[0]:
                 best = (score, wav, entry)
-            clean_ok = not use_marks and entry.sim >= min_sim and entry.dur <= max_dur
-            if clean_ok and not has_marks:
+            clean_ok = mode == "clean" and entry.sim >= min_sim and entry.dur <= max_dur
+            if clean_ok and not has_marks and not human_stress:
                 break
-            if use_marks and score >= 0.5 + marked_min_sim:
+            if (
+                human_stress
+                and mode in {"marks", "respell"}
+                and not heard_has_glide(entry.heard)
+                and entry.sim >= min_sim
+                and entry.dur <= max_dur
+                and words_heard_intact(entry.heard)
+                and mms_confirmed(entry.stress, targets)
+            ):
                 break
-            if clean_ok and has_marks and attempt >= 1:
+            if mode == "marks" and score >= 0.5 + marked_min_sim and not human_stress:
+                break
+            if clean_ok and has_marks and attempt >= 1 and not human_stress:
                 break
         assert best is not None
+        if heard_has_glide(best[2].heard) and best_clean is not None:
+            best = best_clean
         sr = 24000
         chunks.append(best[1])
         chunks.append(np.zeros(int(sr * gap), dtype=np.float32))

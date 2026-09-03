@@ -36,14 +36,14 @@
 | `arrow`, `scribble`, `check` | `evolvePath` | рисуются штрихом от руки |
 | `list`, `bars`, `quote` | `spring()`, `fitText` | пункты по словам, столбики с count-up, цитата с кавычкой |
 | `shape` | `@remotion/shapes` | `circle`, `ellipse`, `star`, `burst` (взрыв за штампом), `triangle`, `pie` (доля, `progress`); `anim: pop|spin|pulse` |
-| `waveform` | `@remotion/media-utils` (`visualizeAudio`) | столбики, реагирующие на голос (`src: vo.mp3`) или музыку — для сцен про звук/речь |
+| `waveform` | `@remotion/media-utils` (`visualizeAudio`) | столбики, реагирующие на голос (`src: vo.mp3`) или музыку — **`bars` только 8/16/32/64** (pow2); рендер округляет, но 28/24 дают warning |
 | `video` | `OffthreadVideo` + `seek` | рамка браузера с реальной записью, старт с нужной секунды |
 | `lottie` | `@remotion/lottie` | анимированный стикер из `assets/lottie/*.json` (только с чистой лицензией) |
 | `custom` | ваш `.tsx` | что угодно (раздел 7) |
 
 ## 4. Субтитры — `@remotion/captions`
 
-Страницы строятся `createTikTokStyleCaptions` из таймингов слов (страница ≤ `max_sec`, разрыв на паузе ≥ 0.35 с и на конце предложения), активное слово подсвечивается. `captions.style`: `box` (белые плашки, дефолт), `outline` (белый текст с чёрной обводкой — на видео и тёмных сценах), `karaoke` (белый → акцент). `fitText` держит страницу в ширине кадра.
+Страницы строятся `createTikTokStyleCaptions` из таймингов слов (страница ≤ `max_sec`, разрыв на паузе ≥ 0.35 с и на конце предложения), активное слово подсвечивается. `captions.style`: `box` (белые плашки, дефолт), `outline` (белый текст с чёрной обводкой — на видео и тёмных сценах), `karaoke` (белый → акцент; **не на длинных фразах** — при > 4 слов в сцене лучше `box` и `max_sec` 0.75). `fitText` держит страницу в ширине кадра. В рендере не обрезать ведущие пробелы между токенами (`Captions.tsx tokenText`).
 
 ## 5. Палитра и стиль-пресеты
 

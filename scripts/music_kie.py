@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -60,7 +61,7 @@ def generate(brief: dict, out_dir: Path) -> dict:
         saved = []
         for i, t in enumerate(tracks[:max(candidates, 1)]):
             dst = out_dir / f"bgm-candidate-{i}.mp3"
-            Path(t).replace(dst)
+            shutil.move(str(t), str(dst))  # cross-device safe (tmp and run dir may be on different mounts)
             saved.append({"path": str(dst)})
         return {"audios": saved}
 

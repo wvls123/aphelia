@@ -10,7 +10,7 @@ runs/<slug>/
   00-brief.md
   research.md           ← researcher: фактура, хронология, цитаты, углы
   facts.json            ← researcher: [{fact, number, source, quote}]
-  script.json           ← writer: биты (say, purpose, visual_idea, assets_wanted, punch_word)
+  script.json           ← writer: schema_version 2; биты (say, purpose, viewer_job, shot, visual_idea, assets_wanted, punch_word)
   script.txt            ← script_check.py --from-json (из беатов)
   stress-overrides.json ← writer (опционально)
   script-check.json
@@ -64,3 +64,9 @@ incident_report:
 ## Контракт решений
 
 Смысловые решения (текст, эффекты, выбор кадров, вердикт QA) принимает **агент** и записывает в JSON сам. Скрипты — только проверяют, считают, рендерят. Скрипт не «придумывает» сторибоард; валидатор не «исправляет» его.
+
+Для каждого бита `script.json` хранит короткий воспроизводимый режиссёрский контракт:
+`viewer_job` и `shot` (`subject`, `action`, `framing`, `continuity`, `avoid`).
+Storyboarder фиксирует во фрагменте, как этот контракт реализован; Guardian принимает
+решение только после просмотра фактических кадров. Текст промпта и run-log не являются
+доказательством качества изображения.

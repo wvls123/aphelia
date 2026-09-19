@@ -27,6 +27,22 @@
 ```json
 {
   "id": "hook",
+  "source_beat": "hook",
+  "viewer_job": "attention",
+  "source_shot": {
+    "subject": "агент у пустого пульта",
+    "action": "сам нажимает кнопку запуска",
+    "framing": "close",
+    "continuity": "person",
+    "avoid": ["мелкий текст", "второй смысловой центр"]
+  },
+  "shot": {
+    "subject": "агент у пустого пульта",
+    "action": "сам нажимает кнопку запуска",
+    "framing": "close",
+    "continuity": "person",
+    "avoid": ["мелкий текст", "второй смысловой центр"]
+  },
   "say": "Точный фрагмент сценария, который звучит в этой сцене.",
   "bg": "paper | ink | accent | danger",
   "transition": { "type": "none | push | wipe | fade | flip | clock | iris | zoom | flash | slice", "dir": "left|right|up|down", "sfx": "paper-slide", "sfx_vol": 0.4 },
@@ -39,6 +55,15 @@
 ```
 
 - `say` — конкатенация всех `say` **дословно равна** `script.txt`. Одна сцена = 1–2 предложения, ≤ 26 слов (~2–9 с).
+- `source_beat`, `viewer_job`, `source_shot`, `shot` — режиссёрский контракт из `script.json`
+  schema v2. Каждая сцена ссылается ровно на один бит. Если бит разделён на две
+  соседние сцены, у обеих один `source_beat`/`viewer_job`, `source_shot` дословно
+  копирует исходный `shot`, а собственный `shot` уточняется под фактический кадр;
+  сумма их `say` дословно воспроизводит `say` исходного бита. У неразделённого бита
+  `shot == source_shot`.
+- `shot.framing`: `wide | medium | close | macro | screen | diagram`.
+  `shot.continuity` — визуальная группа; соседние сцены не должны повторять одновременно
+  одну группу и одну крупность. `shot.avoid` проверяется Guardian по готовым кадрам.
 - `bg` — палитра сцены. `paper` по умолчанию; `ink` (чёрная — панчи; стикеры автоматически инвертируются); `accent`; `danger`. 1–3 инвертированные сцены на ролик.
 - `transition` — первая сцена `none`. `dir` — куда уходит старая сцена. SFX перехода ротируется автоматически, `sfx` задаёт явно.
 - `handheld` — дрейф камеры 0–8 px (документальность). `motion_blur` — по умолчанию включается на crash/shake.

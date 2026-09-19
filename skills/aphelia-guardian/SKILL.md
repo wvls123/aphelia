@@ -5,7 +5,7 @@ description: QA Aphelia — qa.py (кадры, громкость, длител�
 
 # Aphelia Guardian
 
-Вход: `out/<slug>.mp4`, `timeline.json`, `storyboard.json`, `brief.json`. Выход: `qa/` (кадры), `qa-report.json`, `qa-report.md`, `fragments/guardian.md`.
+Вход: `out/<slug>.mp4`, `timeline.json`, `storyboard.json`, `script.json`, `brief.json`. Выход: `qa/` (кадры), `qa-report.json`, `qa-report.md`, `fragments/guardian.md`.
 
 ## Шаги
 
@@ -17,11 +17,17 @@ description: QA Aphelia — qa.py (кадры, громкость, длител�
    - стрелка указывает в пустоту; штамп закрывает лицо; число не влезло;
    - кадр хука (0.5 с): понятно ли за полсекунды, о чём ролик? есть ли цифра/лицо/удар?
    - последний кадр: CTA читается, нет обрыва анимации.
-3. Аудио: `loudness.integrated_lufs` в −16…−12, `true_peak` ≤ −0.5. Длительность в `brief.min_seconds…max_seconds`. Музыка: `music-report.json` существует (трек сгенерирован) — иначе дефект «библиотечный трек» (severity medium, риск Content ID). Разнообразие: `storyboard.json.style_preset`/`style.accent` и `music-brief.json.caption` отличаются от предыдущего run в `aphelia-memory/runs/` — иначе дефект low «ролик выглядит как прошлый».
-4. Вердикт:
+3. **Проверь режиссёрский контракт по фактическим кадрам, не по `say`, промптам или логам:**
+   - сцена реально выполняет свой `viewer_job` из `script.json`, а не только обещает это текстом;
+   - `source_shot` совпадает с исходным `shot` бита; видно одно главное действие из собственного `shot.action`, нет второго смыслового центра из `shot.avoid`;
+   - две соседние сцены не повторяют одновременно `shot.continuity` и `shot.framing`;
+   - общая цепочка читается как `attention → context → proof → desire → action`;
+   - доказательство видно до вывода, а CTA поддержан последним образом, а не приклеен поверх случайного кадра.
+4. Аудио: `loudness.integrated_lufs` в −16…−12, `true_peak` ≤ −0.5. Длительность в `brief.min_seconds…max_seconds`. Музыка: `music-report.json` существует (трек сгенерирован) — иначе дефект «библиотечный трек» (severity medium, риск Content ID). Разнообразие: `storyboard.json.style_preset`/`style.accent` и `music-brief.json.caption` отличаются от предыдущего run в `aphelia-memory/runs/` — иначе дефект low «ролик выглядит как прошлый».
+5. Вердикт:
    - **PASS** — ни одного дефекта уровня «зритель заметит», machine_pass true.
    - **FIX** — список правок, каждая: `scene <id>: <что не так> → <конкретная правка storyboard>` (например, `headline w 560→520`, `image h 900→780, y 600→660`, `stamp x 80→420`, `заменить anim pop→slide from right`, `bg paper→ink`). Не больше 12 правок; правки — только в storyboard.
-5. Запиши `qa-report.md`:
+6. Запиши `qa-report.md`:
 
 ```md
 # QA — <slug>

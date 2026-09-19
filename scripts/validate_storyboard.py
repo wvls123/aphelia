@@ -22,10 +22,19 @@ SAFE_BOTTOM = 1700
 EST_WPS = 2.6  # narration pace used for pre-voice timing estimates
 MIN_CRASH_GAP = 5.0  # seconds between two camera crashes (motion-library: 6–8 s recommended)
 WAVEFORM_BARS_POW2 = {8, 16, 32, 64}  # visualizeAudio numberOfSamples must be pow2; render rounds up but prefer these
+VIEWER_JOBS = {"attention", "context", "proof", "desire", "action"}
+SHOT_FRAMINGS = {"wide", "medium", "close", "macro", "screen", "diagram"}
+SHOT_FIELDS = ("subject", "action", "framing", "continuity", "avoid")
+SCRIPT_SCHEMA_VERSION = 2
 
 
 def words_of(text: str) -> list[str]:
     return [norm(t) for t in re.split(r"\s+", text) if t and re.search(r"[а-яА-ЯёЁa-zA-Z0-9]", t)]
+
+
+def compact_text(text: str) -> str:
+    """Preserve words, case and punctuation; normalize only whitespace."""
+    return " ".join(text.split())
 
 
 def word_index(scene_words: list[str], word: str) -> int | None:
@@ -39,22 +48,47 @@ def validate(project: Path) -> dict:
     sb = read_json(project / "storyboard.json")
     assets = project / "assets"
     manifest = read_json(TEMPLATES / "audio" / "manifest.json")
+    script_json_path = project / "script.json"
+    script_json = read_json(script_json_path) if script_json_path.exists() else {}
+    schema_version = script_json.get("schema_version", 1)
+    if not isinstance(schema_version, int) or isinstance(schema_version, bool):
+        errors.append(f"script.json: schema_version must be an integer, got {schema_version!r}")
+        contract_v2 = False
+    elif schema_version > SCRIPT_SCHEMA_VERSION:
+        errors.append(
+            f"script.json: unsupported future schema_version {schema_version}; max supported is {SCRIPT_SCHEMA_VERSION}"
+        )
+        contract_v2 = False
+    elif schema_version < 1:
+        errors.append(f"script.json: invalid schema_version {schema_version}")
+        contract_v2 = False
+    else:
+        contract_v2 = schema_version == SCRIPT_SCHEMA_VERSION
+    beats = script_json.get("beats", []) if contract_v2 else []
+    beats_by_id = {b.get("id"): b for b in beats if isinstance(b, dict) and isinstance(b.get("id"), str)}
+    expected_beat_ids = [b.get("id") for b in beats if isinstance(b, dict)]
+    if contract_v2:
+        if len(beats_by_id) != len(beats):
+            errors.append("script.json schema v2: every beat needs a unique string id")
+        if not beats:
+            errors.append("script.json schema v2: beats must not be empty")
 
     for key in ("id", "style", "scenes"):
         if key not in sb:
             errors.append(f"missing top-level '{key}'")
     if errors:
-        return {"errors": errors, "warnings": warnings}
+        return {"ok": False, "errors": errors, "warnings": warnings}
     script_path = project / sb.get("script_file", "script.txt")
     if not script_path.exists():
         errors.append(f"script file not found: {script_path.name}")
-        return {"errors": errors, "warnings": warnings}
-    script_words = words_of(script_path.read_text(encoding="utf-8"))
+        return {"ok": False, "errors": errors, "warnings": warnings}
+    script_text = script_path.read_text(encoding="utf-8")
+    script_words = words_of(script_text)
     say_words = [w for sc in sb["scenes"] for w in words_of(sc.get("say", ""))]
-    if script_words != say_words:
-        i = next((k for k, (a, b) in enumerate(zip(script_words, say_words)) if a != b), min(len(script_words), len(say_words)))
+    scenes_text = " ".join(str(sc.get("say", "")) for sc in sb["scenes"])
+    if compact_text(script_text) != compact_text(scenes_text):
         errors.append(
-            f"say/script mismatch at word #{i}: script='{' '.join(script_words[i:i + 5])}' vs say='{' '.join(say_words[i:i + 5])}' "
+            "say/script exact mismatch after whitespace normalization "
             f"(script {len(script_words)} words, say {len(say_words)} words)"
         )
 
@@ -64,6 +98,9 @@ def validate(project: Path) -> dict:
     cam_scenes = 0
     scene_ids: list[str] = []
     scene_stickers: list[set[str]] = []  # image src per scene → repeats across scenes
+    scene_contracts: list[tuple[str, str, str]] = []  # source beat, continuity, framing
+    scene_say_by_beat: dict[str, list[str]] = {}
+    scenes_by_beat: dict[str, list[dict]] = {}
     crash_times: list[tuple[float, str]] = []  # estimated (t, scene id) of every ease: crash key
     sfx_used: Counter[str] = Counter()
     word_cursor = 0
@@ -79,6 +116,46 @@ def validate(project: Path) -> dict:
         word_cursor += len(sw)
         if not sw:
             errors.append(f"[{sid}] empty say")
+        if contract_v2:
+            source_beat = sc.get("source_beat")
+            viewer_job = sc.get("viewer_job")
+            source_shot = sc.get("source_shot")
+            shot = sc.get("shot")
+            beat = beats_by_id.get(source_beat) if isinstance(source_beat, str) else None
+            if beat is None:
+                errors.append(f"[{sid}] source_beat must name one schema-v2 script beat, got {source_beat!r}")
+            elif viewer_job != beat.get("viewer_job"):
+                errors.append(
+                    f"[{sid}] viewer_job {viewer_job!r} does not match source beat '{source_beat}' ({beat.get('viewer_job')!r})"
+                )
+            if beat is not None and source_shot != beat.get("shot"):
+                errors.append(f"[{sid}] source_shot must exactly preserve shot from source beat '{source_beat}'")
+            if not isinstance(viewer_job, str) or viewer_job not in VIEWER_JOBS:
+                errors.append(f"[{sid}] unknown viewer_job {viewer_job!r}")
+            if not isinstance(shot, dict):
+                errors.append(f"[{sid}] shot must be an object with {list(SHOT_FIELDS)}")
+                continuity, framing = "", ""
+            else:
+                missing = [field for field in SHOT_FIELDS if field not in shot]
+                if missing:
+                    errors.append(f"[{sid}] shot missing fields {missing}")
+                framing_value = shot.get("framing")
+                if not isinstance(framing_value, str) or framing_value not in SHOT_FRAMINGS:
+                    errors.append(f"[{sid}] unknown shot.framing {framing_value!r}")
+                avoid = shot.get("avoid")
+                if not isinstance(avoid, list) or any(
+                    not isinstance(item, str) or not item.strip() for item in avoid
+                ):
+                    errors.append(f"[{sid}] shot.avoid must contain only non-empty strings")
+                for field in ("subject", "action", "continuity"):
+                    if not isinstance(shot.get(field), str) or not shot[field].strip():
+                        errors.append(f"[{sid}] shot.{field} must be a non-empty string")
+                continuity = shot.get("continuity") if isinstance(shot.get("continuity"), str) else ""
+                framing = framing_value if isinstance(framing_value, str) else ""
+            if isinstance(source_beat, str):
+                scene_say_by_beat.setdefault(source_beat, []).append(str(sc.get("say", "")))
+                scenes_by_beat.setdefault(source_beat, []).append(sc)
+                scene_contracts.append((source_beat, continuity, framing))
         tr = sc.get("transition", {"type": "none"})
         if tr.get("type") not in TRANSITION:
             errors.append(f"[{sid}] unknown transition '{tr.get('type')}'")
@@ -214,6 +291,31 @@ def validate(project: Path) -> dict:
             warnings.append(f"[{sid}] {len(sw)} words in one scene (~{len(sw) / EST_WPS:.0f}s) — split it, reels change picture every 2–5 s")
 
     n = len(sb["scenes"])
+    if contract_v2:
+        actual_beat_ids = [source for source, _, _ in scene_contracts]
+        collapsed_beat_ids = [
+            source for i, source in enumerate(actual_beat_ids) if i == 0 or source != actual_beat_ids[i - 1]
+        ]
+        if collapsed_beat_ids != expected_beat_ids:
+            errors.append(
+                f"storyboard source_beat order/coverage mismatch: expected {expected_beat_ids}, got {collapsed_beat_ids}"
+            )
+        for beat_id, beat in beats_by_id.items():
+            reconstructed = " ".join(scene_say_by_beat.get(beat_id, []))
+            if compact_text(str(beat.get("say", ""))) != compact_text(reconstructed):
+                errors.append(
+                    f"storyboard scenes for source_beat '{beat_id}' do not exactly reproduce that beat's say"
+                )
+            mapped_scenes = scenes_by_beat.get(beat_id, [])
+            if len(mapped_scenes) == 1 and mapped_scenes[0].get("shot") != beat.get("shot"):
+                errors.append(
+                    f"storyboard unsplit scene for source_beat '{beat_id}' must preserve the beat shot exactly"
+                )
+        for previous, current in zip(scene_contracts, scene_contracts[1:]):
+            if previous[1:] == current[1:]:
+                warnings.append(
+                    f"scenes for '{previous[0]}' → '{current[0]}' repeat continuity+framing {current[1:]}"
+                )
     # motion-library rule 6: no sticker in two adjacent scenes, one sticker ≤ 2 scenes per reel
     for i in range(1, len(scene_stickers)):
         for src in sorted(scene_stickers[i] & scene_stickers[i - 1]):

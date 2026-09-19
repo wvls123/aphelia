@@ -5,7 +5,7 @@ description: Режиссёр монтажа Aphelia — анализирует 
 
 # Aphelia Storyboarder
 
-Вход: `script.json` (биты с `emotion`, `punch_word`, `visual_idea`, `mood_for_music`), `script.txt`, `assets/vo-words.json`, `assets/assets.json`, `assets/videos.json` (если есть), `brief.json`. Выход: `storyboard.json`, `music-brief.json`, при необходимости `custom/<Name>.tsx`, `storyboard-validation.json ok:true`, `timeline.json`, `fragments/storyboarder.md`.
+Вход: `script.json` (биты с `emotion`, `punch_word`, `visual_idea`, `viewer_job`, `shot`, `mood_for_music`), `script.txt`, `assets/vo-words.json`, `assets/assets.json`, `assets/videos.json` (если есть), `brief.json`. Выход: `storyboard.json`, `music-brief.json`, при необходимости `custom/<Name>.tsx`, `storyboard-validation.json ok:true`, `timeline.json`, `fragments/storyboarder.md`.
 
 Обязательно прочитать: `shared/remotion-capabilities.md` (что умеет движок), `shared/motion-library.md` (шаг 0 анализа, стиль-пресеты, архетипы, правила, композиция, звук), `shared/storyboard-schema.md` (поля), `shared/music-contract.md`, `templates/audio/sfx-catalog.json` (звуки по смыслу). Предыдущие сторибоарды в `aphelia-memory/runs/*/storyboard.json` — чтобы **не повторить** пресет/акцент/музыку прошлого ролика.
 
@@ -13,13 +13,14 @@ description: Режиссёр монтажа Aphelia — анализирует 
 
 1. **Анализ (шаг 0 motion-library)** — 6 решений во фрагменте: жанр/тон, стиль-пресет (не как в прошлом ролике), ритм, словарь переходов, музыка, звуковая палитра (8–12 SFX по словам сценария из каталога).
 2. **Музыка** — `music-brief.json` (`caption` по-английски под настроение, `bpm`, `candidates: 2`); в storyboard `bgm: {"src": "audio/bgm-generated.mp3", "vol": 0.3–0.4}`. Рендер сгенерирует трек сам.
-3. **Сцены** — одна сцена = 1–2 предложения (≤ 26 слов), `say` дословно; сумма `say` == `script.txt`. Длинные биты дели на две сцены с разным кадром (цифра → реакция).
-4. **Архетип и эффекты на каждую сцену** по `purpose`/`emotion`/`visual_idea`: `bg`, переход из словаря ролика (громкие — не подряд), слои (стикер крупно из `assets.json`, цифра, список, столбики, цитата, `video` с `seek`, `shape`, `waveform`, `check`, `scribble`, `arrow`), `headline.anim` варьировать (rise/slam/words/typewriter/blur/flip), `image.anim` варьировать (10 вариантов, `trail` на 1–2 быстрых), тайминги по `at_word`.
+3. **Сцены** — одна сцена = 1–2 предложения (≤ 26 слов), `say` дословно; сумма `say` == `script.txt`. В каждую сцену запиши `source_beat`, `viewer_job`, `source_shot`, `shot`, чтобы Guardian мог проверить контракт по готовому кадру. `source_shot` всегда является точной копией `shot` исходного бита. Одна сцена выполняет один `viewer_job` и показывает одно главное действие из `shot.action`. Длинный бит можно разделить только на соседние сцены с тем же `source_beat`/`viewer_job`/`source_shot`; для каждой уточни свой `shot` (цифра → реакция), а сумма их `say` должна дословно воспроизвести `say` бита. Если бит не разделён, `shot` не переписывай: он равен `source_shot`.
+4. **Архетип и эффекты на каждую сцену** по `purpose`/`viewer_job`/`emotion`/`visual_idea`/`shot`: `bg`, переход из словаря ролика (громкие — не подряд), слои (стикер крупно из `assets.json`, цифра, список, столбики, цитата, `video` с `seek`, `shape`, `waveform`, `check`, `scribble`, `arrow`), `headline.anim` варьировать (rise/slam/words/typewriter/blur/flip), `image.anim` варьировать (10 вариантов, `trail` на 1–2 быстрых), тайминги по `at_word`. Соблюдай `shot.avoid`.
 5. **Камера** — второй ключ минимум в половине сцен; `crash` на `punch_word` (не чаще раза в 6–8 с), `shake` 8–14 под удар; точка камеры — центр объекта, `cam.x` 500–580, если слева текст; `handheld` 3–6 на цитатах/видео/расследовании; `motion_blur` включится сам.
 6. **SFX по смыслу** — 0–2 на сцену из звуковой палитры (шаг 1), один звук ≤ 3 раз, переходы озвучатся сами (или явный `transition.sfx`).
 7. **Если эффекта нет** — напиши `custom/<Name>.tsx` по контракту `CustomLayerProps` (пример `templates/remotion/src/custom/ExampleBadge.tsx`), детерминированно от `now`, и используй слой `custom`. Это нормальный путь, не исключение.
 8. `python scripts/validate_storyboard.py --project <run>` → 0 errors; warnings устранить или обосновать (проекция камеры, зона субтитров, повторы стикеров/звуков, kicker/headline, crash-каденция, **waveform bars pow2**, **karaoke на длинных сценах**). Затем `python scripts/timeline.py --project <run>` → длительности сцен 1.5–9 с.
-9. Перечитай как зритель: каждые 2–5 с новое движение? есть инверсия, список, цифра, доказательство, панч, выдох? Цвет и музыка отличаются от прошлого ролика?
+9. **Монтажная последовательность** — проверь, что ролик проходит путь `attention → context → proof → desire → action`. Не ставь рядом две сцены с одинаковым `shot.continuity` и одинаковой крупностью. После close/macro дай medium/wide/diagram; после экрана — человека, предмет или число. Первый кадр — самый сильный, затем доказательство, в конце — образ/действие, которое зритель уносит с собой.
+10. Перечитай как зритель: каждые 2–5 с новое движение? есть инверсия, список, цифра, доказательство, панч, выдох? Цвет и музыка отличаются от прошлого ролика? Каждая сцена выполняет заявленный `viewer_job` без второго смыслового центра?
 
 ### Субтитры
 
@@ -32,4 +33,4 @@ description: Режиссёр монтажа Aphelia — анализирует 
 
 ## Фрагмент
 
-`=== STORYBOARDER ===`, status, outputs, `analysis` (6 решений шага 0), `summary` (сцен, архетипы, где панчи/инверсии, custom-компоненты), `decisions` (обоснование warnings), `incident_report`.
+`=== STORYBOARDER ===`, status, outputs, `analysis` (6 решений шага 0 + цепочка `viewer_job` и чередование `shot.continuity/framing`), `summary` (сцен, архетипы, где панчи/инверсии, custom-компоненты), `decisions` (обоснование warnings), `incident_report`.
